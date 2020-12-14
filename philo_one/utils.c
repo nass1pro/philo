@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 12:05:42 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 11:14:28 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/14 13:50:19 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo1.h"
+#include <stdio.h>
 
 size_t		ft_strlen(char *str)
 {
@@ -44,7 +45,11 @@ char		*ft_int_to_char(long long n, char *str)
 	int		length;
 
 	if (n == 0)
+	{
 		str[0] = '0';
+		str[1] = '\0';
+		return (str);
+	}
 	length = 0;
 	while (n != 0)
 	{

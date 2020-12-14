@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 16:35:21 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 13:38:09 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/14 13:40:45 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		message_tru(t_philo *philo, char *id, char *time_stamp, int type)
 	id = ft_int_to_char(philo->id, id);
 	revers_str(time_stamp);
 	revers_str(id);
-	time_stamp = ft_strncat(time_stamp, " ", 2);
+	time_stamp = ft_strncat(time_stamp, " ", 1);
 	time_stamp = ft_strncat(time_stamp, id, ft_strlen(id));
 	time_stamp = ft_strncat(time_stamp, get_status(type),
 				ft_strlen(get_status(type)));
