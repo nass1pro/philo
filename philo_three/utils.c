@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 11:49:19 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/11/13 12:03:15 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/14 13:19:42 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void		philo_sleep_or_think(t_philo *philo, int type)
 			philo->argg->time_to_sleep >= philo->argg->time_to_die)
 		{
 			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			out_message(type, philo);
 			usleep(ti * 1000);
+			out_message(type, philo);
 			return ;
 		}
 		else
 		{
-			out_message(type, philo);
 			usleep(philo->argg->time_to_sleep * 1000);
+			out_message(type, philo);
 		}
 	}
 	else
