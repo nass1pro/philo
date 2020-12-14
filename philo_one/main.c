@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 13:18:09 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/14 13:33:20 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void		*philo_life(void *philo)
 	t_philo *phi;
 
 	phi = (t_philo *)philo;
-	phi->c_start = get_time();
+	// phi->c_start = get_time();
 	phi->last_aet = get_time();
 	while (get_time() - phi->last_aet < phi->argg->time_to_die ||
 		phi->argg->philo_dead != 1 || phi->argg->must_eat_arg != 1)
@@ -93,7 +93,8 @@ int			philo_create(t_targ *arg)
 	while (i < arg->nb_ph)
 	{
 		pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]);
-		usleep(200);
+		arg->philo[i].c_start = get_time();
+		//usleep(200);
 		i++;
 	}
 	while (arg->philo_dead != 1)
