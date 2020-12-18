@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 06:57:46 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 06:59:57 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int			philo_create(t_targ *arg)
 		//usleep(200);
 		i++;
 	}
-	pthread_mutex_lock(&arg->mutex);
-	pthread_mutex_lock(&arg->mutex);
+	pthread_mutex_unlock(&arg->mutex);
+	// pthread_mutex_lock(&arg->mutex);
 	// while (arg->philo_dead != 1)
 	// 	;
 	pthread_mutex_lock(&arg->write_sc);
