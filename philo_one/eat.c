@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 13:09:24 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/11/13 12:05:01 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 07:07:09 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void			philo_eat(t_philo *philo)
 
 	ti = 0;
 	philo->count_eat++;
-	if (philo->argg->time_to_eat > philo->argg->time_to_die)
+	if (philo->argg->time_to_eat >= philo->argg->time_to_die)
 	{
 		usleep((philo->argg->time_to_die) * 1000);
-		out_message(TYPE_EAT, philo);
+		out_message(TYPE_DIED, philo);
 	}
 	else
 	{
