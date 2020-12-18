@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo1.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/11/13 12:11:52 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 04:33:12 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct			s_targ
 	struct s_philo		*philo;
 	pthread_mutex_t		*fork;
 	pthread_mutex_t		write_sc;
+	pthread_mutex_t		mutex;
 	int					must_eat_arg;
 }						t_targ;
 

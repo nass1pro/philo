@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/11/13 12:06:48 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 04:35:05 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_targ			*init_mut(t_targ *ar)
 
 	i = 0;
 	pthread_mutex_init(&ar->write_sc, NULL);
+	pthread_mutex_ini(&ar.mutex, NULL);
+	pthread_mutex_lock(&mutex)
 	ar->philo_dead = 0;
 	ar->must_eat_arg = 0;
 	while (i <= ar->nb_ph)
