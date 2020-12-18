@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 04:57:27 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 05:07:09 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void		*philo_life(void *philo)
 	while (get_time() - phi->last_aet < phi->argg->time_to_die ||
 		phi->argg->philo_dead != 1 || phi->argg->must_eat_arg != 1)
 	{
+		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
+			break ;
 		take_fork(phi);
 		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
 			break ;
