@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 08:58:20 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 11:45:32 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int				init_philo(t_targ *argt)
 		argt->philo[i].argg = argt;
 		argt->philo[i].is_eat = 0;
 		pthread_mutex_init(&argt->philo[i].mutex, NULL);
-		pthread_mutex_init(&argt->philo[i].eat_m, NULL);
 		i++;
 	}
 	return (1);
@@ -39,6 +38,9 @@ t_targ			*init_mut(t_targ *ar)
 	int		i;
 
 	i = 0;
+	if (!(ar->fork =
+		malloc(sizeof(pthread_mutex_t) * ar->nb_ph)))
+		return (NULL);
 	pthread_mutex_init(&ar->write_sc, NULL);
 	pthread_mutex_init(&ar->somebody_dead_m, NULL);
 	pthread_mutex_lock(&ar->somebody_dead_m);
@@ -84,16 +86,17 @@ t_targ			*init(t_targ *time_arg, int ac, char **argv)
 		time_arg->time_to_eat = ft_atoi(argv[3]);
 		time_arg->time_to_sleep = ft_atoi(argv[4]);
 		if (time_arg->nb_ph < 3 || time_arg->time_to_die < 100 ||
-			time_arg->time_to_sleep < 10 || time_arg->must_eat > 0 ||
-			time_arg->time_to_eat < 10)
-			return (NULL);
-		if (!(time_arg->fork =
-			malloc(sizeof(pthread_mutex_t) * time_arg->nb_ph)))
+			time_arg->time_to_sleep < 10|| time_arg->time_to_eat < 10)
 			return (NULL);
 		if (ac > 5)
+		{
 			time_arg->must_eat = ft_atoi(argv[5]);
+			printf("%d\n", time_arg->must_eat);
+			if (time_arg->must_eat < 0)
+					return NULL;
+		}
 		else
-			time_arg->must_eat = 100000;
+			time_arg->must_eat = 1000000;
 		return (init_mut(time_arg));
 	}
 	return (time_arg);

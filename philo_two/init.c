@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:42:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 11:26:08 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 15:58:25 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int			init_philo(t_targ *argt)
 {
 	int		i;
+	// char   str[13];
 
 	i = 0;
 	if (!(argt->philo = malloc(sizeof(t_philo) * argt->nb_ph)))
@@ -24,6 +25,10 @@ int			init_philo(t_targ *argt)
 		argt->philo[i].id = i + 1;
 		argt->philo[i].count_eat = 0;
 		argt->philo[i].argg = argt;
+		argt->philo[i].is_eat = 0;
+		// ft_int_to_char((long long)i + 1, str);
+		sem_unlink("mutex");
+		argt->philo[i].mutex = sem_open("mutex",O_CREAT | O_EXCL, S_IRWXU, 1);
 		i++;
 	}
 	return (1);
@@ -35,10 +40,12 @@ t_targ		*init_sem(t_targ *ar)
 
 	i = 0;
 	sem_unlink("fork");
+	ar->fork = sem_open("fork", O_CREAT | O_EXCL, S_IRWXU, ar->nb_ph);
 	sem_unlink("wt");
 	ar->write_sc = sem_open("wt", O_CREAT | O_EXCL, S_IRWXU, 1);
+	sem_unlink("dead");
+	ar->somebody_dead_m = sem_open("dead", O_CREAT | O_EXCL, S_IRWXU, 0);
 	ar->philo_dead = 0;
-	ar->fork = sem_open("fork", O_CREAT | O_EXCL, S_IRWXU, ar->nb_ph);
 	return (ar);
 }
 

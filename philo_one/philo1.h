@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 09:39:09 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 11:46:00 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct			s_philo
 	struct s_targ		*argg;
 	pthread_t			t_ph;
 	pthread_mutex_t		mutex;
-	pthread_mutex_t		eat_m;
+
 }						t_philo;
 
 typedef struct			s_targ

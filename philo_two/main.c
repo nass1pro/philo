@@ -6,13 +6,13 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 07:33:16 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 16:13:59 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-void		philo_sleep_or_think(t_philo *philo, int type)
+int		philo_sleep_or_think(t_philo *philo, int type)
 {
 	long long ti;
 
@@ -22,78 +22,97 @@ void		philo_sleep_or_think(t_philo *philo, int type)
 			philo->argg->time_to_sleep >= philo->argg->time_to_die)
 		{
 			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
+			if (out_message(type, philo))
+				return (1);
 			usleep(ti * 1000);
-			out_message(type, philo);
-			return ;
+			return (1);
 		}
 		else
 		{
 			usleep(philo->argg->time_to_sleep * 1000);
-			out_message(type, philo);
+			if (out_message(type, philo))
+				return (1);
 		}
 	}
 	else
-		out_message(type, philo);
+		if (out_message(type, philo))
+			return (1);
+	return 0;
 }
 
-void		ft_philo_dead(int type, t_philo *philo)
+static void *end_prog_sem(t_philo *philo, int type)
 {
-	char *time_stamp;
-	char *id;
+	if (out_message(type, philo))
+		return ((void*)0);
+	if(sem_post(philo->mutex))
+		return ((void*)0);
+	if (sem_post(philo->argg->somebody_dead_m))
+		return  ((void*)0);
+	return ((void*)0);
+}
 
-	if (!(time_stamp = malloc(sizeof(char) * 128)))
-		return ;
-	if (!(id = malloc(sizeof(char) * 5)))
-		return ;
-	message_tru(philo, id, time_stamp, type);
-	free(time_stamp);
-	free(id);
+static void *monitor(void *philo_v)
+{
+	t_philo		*philo;
+
+	philo = (t_philo*)philo_v;
+	while (1)
+	{
+		if (sem_wait(philo->mutex))
+			return  ((void*)0);
+		if (philo->argg->must_eat != 0 && philo->count_eat ==
+			philo->argg->must_eat)
+			return (end_prog_sem(philo, TYPE_OVER));
+		if (!philo->is_eat && get_time() > philo->limit)
+			return (end_prog_sem(philo,TYPE_DIED));
+		if (sem_post(philo->mutex))
+			return ((void*)0);
+		usleep(1000);
+	}
+	return ((void*)0);
 }
 
 void		*philo_life(void *philo)
 {
 	t_philo *phi;
-
+	pthread_t tid;
 	phi = (t_philo *)philo;
-	phi->c_start = get_time();
 	phi->last_aet = get_time();
-	while (get_time() - phi->last_aet < phi->argg->time_to_die ||
-		phi->argg->philo_dead != 1 || phi->argg->must_eat_arg != 1)
+	phi->limit = phi->last_aet + phi->argg->time_to_die;
+	if (pthread_create(&tid, NULL, &monitor, philo) != 0)
+		return ((void*)1);
+	pthread_detach(tid);
+	while (1)
 	{
-		take_fork(phi);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
-		philo_eat(phi);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
-		clean_fork(phi);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
+		if (take_fork(phi))
+			return ((void*)0);
+		if (philo_eat(phi))
+			return ((void*)0);
+		if (clean_fork(phi))
+			return ((void*)0);;
 		philo_sleep_or_think(phi, TYPE_SLEEP);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
-	return (void *)phi;
+	return ((void *)0);
 }
 
 int			philo_create(t_targ *arg)
 {
 	int i;
+	pthread_t tid;
 
 	i = 0;
 	while (i < arg->nb_ph)
+		arg->philo[i++].c_start = get_time();
+	i = 0;
+	while (i < arg->nb_ph)
 	{
-		pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]);
-		usleep(200);
+		if (pthread_create(&tid, NULL, &philo_life, &arg->philo[i]) != 0)
+			return (1);
+		pthread_detach(tid);
+		usleep(100);
 		i++;
 	}
-	while (arg->philo_dead != 1)
-		;
-	sem_wait(arg->write_sc);
-	i = -1;
-	while (++i != arg->nb_ph)
-		pthread_detach(arg->philo[i].t_ph);
 	return (0);
 }
 
@@ -121,8 +140,13 @@ int			main(int ac, char **argv)
 		return (ft_error(TYPE_ER_ARG));
 	}
 	init_philo(arg);
-	philo_create(arg);
-	usleep(20);
+	if (philo_create(arg))
+	{
+		clear_all(*arg);
+		return 1;
+	}
+	if (sem_wait(arg->somebody_dead_m))
+		return 0;
 	clear_all(*arg);
 	return (0);
 }

@@ -3,29 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   fork.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:28:19 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/11/13 12:15:44 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 14:36:43 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-void		take_fork(t_philo *philo)
+int		take_fork(t_philo *philo)
 {
-	sem_wait(philo->argg->fork);
-	sem_wait(philo->argg->fork);
-	if (philo->argg->philo_dead == 1 || philo->argg->must_eat_arg)
-	{
-		clean_fork(philo);
-	}
-	else
-		out_message(TYPE_FORK, philo);
+	if  (sem_wait(philo->argg->fork))
+		return 1;
+	if (out_message(TYPE_FORK, philo))
+		return  1;
+	if (sem_wait(philo->argg->fork))
+		return 1;
+	if (out_message(TYPE_FORK, philo))
+		return 1;
+	return 0;
 }
 
-void		clean_fork(t_philo *philo)
+int		clean_fork(t_philo *philo)
 {
-	sem_post(philo->argg->fork);
-	sem_post(philo->argg->fork);
+	if  (sem_post(philo->argg->fork))
+		return 1;
+	if (sem_post(philo->argg->fork))
+		return 1;
+	return 0;
 }

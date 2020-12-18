@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 12:44:25 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 14:47:33 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ char		*ft_int_to_char(long long n, char *str)
 	int		length;
 
 	if (n == 0)
+	{
 		str[0] = '0';
+		return str;
+	}
 	length = 0;
 	while (n != 0)
 	{
@@ -63,25 +66,6 @@ void		message_tru(t_philo *philo, char *id, char *time_stamp, int type)
 	write(1, time_stamp, ft_strlen(time_stamp));
 }
 
-int			end_prog(t_philo *philo)
-{
-	if (philo->argg->must_eat == philo->count_eat)
-	{
-		philo->argg->must_eat_arg = 1;
-		philo->argg->philo_dead = 1;
-		ft_philo_dead(TYPE_EAT, philo);
-		usleep(philo->argg->time_to_eat * 1000);
-		clean_fork(philo);
-		ft_philo_dead(TYPE_OVER, philo);
-	}
-	else
-	{
-		philo->argg->philo_dead = 1;
-		ft_philo_dead(TYPE_DIED, philo);
-	}
-	return (1);
-}
-
 int			out_message(int type, t_philo *philo)
 {
 	char	*time_stamp;
@@ -91,16 +75,13 @@ int			out_message(int type, t_philo *philo)
 		return (0);
 	if (!(id = malloc(sizeof(char) * 5)))
 		return (0);
-	sem_wait(philo->argg->write_sc);
-	if (get_time() - philo->last_aet > philo->argg->time_to_die ||
-		philo->argg->must_eat == philo->count_eat)
-	{
-		return (end_prog(philo));
-	}
-	else
-		message_tru(philo, id, time_stamp, type);
-	sem_post(philo->argg->write_sc);
+	if  (sem_wait(philo->argg->write_sc))
+		return (1);
+	message_tru(philo, id, time_stamp, type);
 	free(time_stamp);
 	free(id);
-	return (1);
+	if (type != TYPE_DIED && type != TYPE_OVER)
+		if (sem_post(philo->argg->write_sc))
+			return  1;
+	return (0);
 }
