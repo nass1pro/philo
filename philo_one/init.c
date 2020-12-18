@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 04:54:00 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 08:58:20 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ int				init_philo(t_targ *argt)
 		argt->philo[i].l_fork = i;
 		argt->philo[i].r_fork = (i + 1) % argt->nb_ph;
 		argt->philo[i].argg = argt;
+		argt->philo[i].is_eat = 0;
+		pthread_mutex_init(&argt->philo[i].mutex, NULL);
+		pthread_mutex_init(&argt->philo[i].eat_m, NULL);
 		i++;
 	}
 	return (1);
@@ -37,8 +40,8 @@ t_targ			*init_mut(t_targ *ar)
 
 	i = 0;
 	pthread_mutex_init(&ar->write_sc, NULL);
-	pthread_mutex_init(&ar->mutex, NULL);
-	pthread_mutex_lock(&ar->mutex);
+	pthread_mutex_init(&ar->somebody_dead_m, NULL);
+	pthread_mutex_lock(&ar->somebody_dead_m);
 	ar->philo_dead = 0;
 	ar->must_eat_arg = 0;
 	while (i <= ar->nb_ph)

@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 04:54:12 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 09:39:09 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,29 +34,35 @@ struct s_targ;
 typedef struct			s_philo
 {
 	int					id;
+	long long 			limit;
 	long long			c_start;
 	long long			last_aet;
 	long long			time_die;
 	int					count_eat;
 	int					l_fork;
 	int					r_fork;
+	int 				is_eat;
 	struct s_targ		*argg;
 	pthread_t			t_ph;
+	pthread_mutex_t		mutex;
+	pthread_mutex_t		eat_m;
 }						t_philo;
 
 typedef struct			s_targ
 {
 	int					nb_ph;
+	long long 			start;
 	long long			time_to_die;
 	long long			time_to_eat;
 	long long			time_to_sleep;
+	int					must_eat_arg;
 	int					must_eat;
-	int					philo_dead;
+	int 				philo_dead;
+
+	pthread_mutex_t		somebody_dead_m;
 	struct s_philo		*philo;
 	pthread_mutex_t		*fork;
 	pthread_mutex_t		write_sc;
-	int					must_eat_arg;
-	pthread_mutex_t		mutex;
 }						t_targ;
 
 int						ft_atoi(const char *str);
@@ -72,7 +78,6 @@ void					take_fork(t_philo *philo);
 void					clean_fork(t_philo *philo);
 void					message_tru(t_philo *philo,
 						char *id, char *time_stamp, int type);
-void					ft_philo_dead(int type, t_philo *philo);
 int						ft_error(int type);
 char					*ft_int_to_char(long long n, char *str);
 char					*ft_strncat(char *dest, const char *src, size_t n);

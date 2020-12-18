@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 07:03:50 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 09:38:41 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void		philo_sleep_or_think(t_philo *philo, int type)
 			philo->argg->time_to_sleep >= philo->argg->time_to_die)
 		{
 			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			usleep(ti * 1000);
 			out_message(type, philo);
+			usleep(ti * 1000);
 			return ;
 		}
 		else
@@ -36,48 +36,55 @@ void		philo_sleep_or_think(t_philo *philo, int type)
 		out_message(type, philo);
 }
 
-void		ft_philo_dead(int type, t_philo *philo)
+static void *monitor(void *philo_v)
 {
-	char *time_stamp;
-	char *id;
+	t_philo		*philo;
 
-	if (!(time_stamp = malloc(sizeof(char) * 128)))
-		return ;
-	if (!(id = malloc(sizeof(char) * 5)))
-		return ;
-	message_tru(philo, id, time_stamp, type);
-	free(time_stamp);
-	free(id);
+	philo = (t_philo*)philo_v;
+	while (1)
+	{
+		pthread_mutex_lock(&philo->mutex);
+		if (philo->argg->must_eat != 0 && philo->count_eat ==
+			philo->argg->must_eat)
+		{
+			out_message(TYPE_OVER, philo);
+			pthread_mutex_unlock(&philo->mutex);
+			pthread_mutex_unlock(&philo->argg->somebody_dead_m);
+			return ((void*)0);
+		}
+		if (!philo->is_eat && get_time() > philo->limit)
+		{
+			out_message(TYPE_DIED, philo);
+			pthread_mutex_unlock(&philo->mutex);
+			pthread_mutex_unlock(&philo->argg->somebody_dead_m);
+			return ((void*)0);
+		}
+		pthread_mutex_unlock(&philo->mutex);
+		usleep(1000);
+	}
 }
 
 void		*philo_life(void *philo)
 {
 	t_philo *phi;
+	pthread_t	tid;
 
 	phi = (t_philo *)philo;
-	// phi->c_start = get_time();
+	phi->c_start = get_time();
 	phi->last_aet = get_time();
-	while (get_time() - phi->last_aet < phi->argg->time_to_die ||
-		phi->argg->philo_dead != 1 || phi->argg->must_eat_arg != 1)
+	phi->limit = phi->last_aet + phi->argg->time_to_die;
+	if (pthread_create(&tid, NULL, &monitor, phi) != 0)
+		return ((void*)1);
+	pthread_detach(tid);
+	while (1)
 	{
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
 		take_fork(phi);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
 		philo_eat(phi);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
 		clean_fork(phi);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
 		philo_sleep_or_think(phi, TYPE_SLEEP);
-		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
-			break ;
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
-	pthread_mutex_unlock(&phi->argg->mutex);
-	return (void *)phi;
+	return (void *)0;
 }
 
 /*
@@ -91,23 +98,17 @@ void		*philo_life(void *philo)
 int			philo_create(t_targ *arg)
 {
 	int i;
+	pthread_t	tid;
 
 	i = 0;
 	while (i < arg->nb_ph)
 	{
-		pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]);
+		pthread_create(&tid, NULL, &philo_life, &arg->philo[i]);
 		arg->philo[i].c_start = get_time();
-		//usleep(200);
+		pthread_detach(tid);
+		usleep(100);
 		i++;
 	}
-	//pthread_mutex_unlock(&arg->mutex);
-	 pthread_mutex_lock(&arg->mutex);
-	// while (arg->philo_dead != 1)
-	// 	;
-	pthread_mutex_lock(&arg->write_sc);
-	i = -1;
-	while (i++ != arg->nb_ph)
-		pthread_detach(arg->philo[i].t_ph);
 	return (0);
 }
 
@@ -128,6 +129,8 @@ int			main(int ac, char **argv)
 	}
 	init_philo(arg);
 	philo_create(arg);
+	pthread_mutex_lock(&arg->somebody_dead_m);
+	pthread_mutex_unlock(&arg->somebody_dead_m);
 	clear_all(*arg);
 	return (0);
 }

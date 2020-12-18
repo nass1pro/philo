@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 16:35:21 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 07:13:16 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 09:38:10 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,6 @@ void		message_tru(t_philo *philo, char *id, char *time_stamp, int type)
 	write(1, time_stamp, ft_strlen(time_stamp));
 }
 
-static void	out_message_two(t_philo *philo)
-{
-	if (philo->argg->must_eat == philo->count_eat)
-	{
-		philo->argg->must_eat_arg = 1;
-		philo->argg->philo_dead = 1;
-		usleep(philo->argg->time_to_eat * 1000);
-		ft_philo_dead(TYPE_EAT, philo);
-		ft_philo_dead(TYPE_OVER, philo);
-	}
-	else
-	{
-		philo->argg->philo_dead = 1;
-		ft_philo_dead(TYPE_DIED, philo);
-	}
-}
-
 int			out_message(int type, t_philo *philo)
 {
 	char		*time_stamp;
@@ -86,20 +69,9 @@ int			out_message(int type, t_philo *philo)
 	if (!(id = malloc(sizeof(char) * 5)))
 		return (0);
 	pthread_mutex_lock(&philo->argg->write_sc);
-	if (philo->argg->philo_dead == 1)
-	{
+	message_tru(philo, id, time_stamp, type);
+	if (type != TYPE_DIED && type != TYPE_OVER)
 		pthread_mutex_unlock(&philo->argg->write_sc);
-		return (0);
-	}
-	if (get_time() - philo->last_aet > philo->argg->time_to_die ||
-		philo->argg->must_eat == philo->count_eat)
-	{
-		philo->argg->philo_dead = 1;
-		out_message_two(philo);
-	}
-	else
-		message_tru(philo, id, time_stamp, type);
-	pthread_mutex_unlock(&philo->argg->write_sc);
 	free(time_stamp);
 	free(id);
 	return (1);
