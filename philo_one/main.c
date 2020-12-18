@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 06:56:52 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 06:57:46 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ void		*philo_life(void *philo)
 	while (get_time() - phi->last_aet < phi->argg->time_to_die ||
 		phi->argg->philo_dead != 1 || phi->argg->must_eat_arg != 1)
 	{
-		if ( phi->argg->must_eat_arg)
+		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
 			break ;
 		take_fork(phi);
-		if (phi->argg->must_eat_arg)
+		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
 			break ;
 		philo_eat(phi);
-		if (phi->argg->must_eat_arg)
+		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
 			break ;
 		clean_fork(phi);
-		if (phi->argg->must_eat_arg)
+		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
 			break ;
 		philo_sleep_or_think(phi, TYPE_SLEEP);
-		if (phi->argg->must_eat_arg)
+		if (phi->argg->philo_dead == 1 || phi->argg->must_eat_arg)
 			break ;
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
