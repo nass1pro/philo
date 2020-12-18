@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 13:20:08 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 07:29:08 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int			philo_create(t_targ *arg)
 	}
 	while (arg->philo_dead != 1)
 		;
-	sem_wait(arg->write_sc);
+	// sem_wait(arg->write_sc);
 	i = -1;
 	while (++i != arg->nb_ph)
 		pthread_detach(arg->philo[i].t_ph);
