@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 16:35:21 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 13:40:45 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 06:48:24 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int			out_message(int type, t_philo *philo)
 	if (get_time() - philo->last_aet > philo->argg->time_to_die ||
 		philo->argg->must_eat == philo->count_eat)
 	{
+		philo->argg->philo_dead = 1;
 		out_message_two(philo);
 	}
 	else
