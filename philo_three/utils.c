@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 11:49:19 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 13:19:42 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 07:47:43 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ char		*ft_int_to_char(long long n, char *str)
 	int		length;
 
 	if (n == 0)
+	{
 		str[0] = '0';
+		return str;	
+	}
 	length = 0;
 	while (n != 0)
 	{
