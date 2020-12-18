@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 04:33:12 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 04:43:43 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ typedef struct			s_targ
 	struct s_philo		*philo;
 	pthread_mutex_t		*fork;
 	pthread_mutex_t		write_sc;
-	pthread_mutex_t		mutex;
 	int					must_eat_arg;
+	pthread_mutex_t		mutex;
 }						t_targ;
 
 int						ft_atoi(const char *str);
