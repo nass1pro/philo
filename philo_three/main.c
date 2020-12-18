@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 07:50:11 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/18 07:54:20 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int			philo_create(t_targ *arg)
 		return (1);
 
 	while (i < arg->nb_ph)
-		arg->philo[i]->c_start = get_time();
+		arg->philo[i].c_start = get_time();
 	i = 0;
 	while (i < arg->nb_ph)
 	{
