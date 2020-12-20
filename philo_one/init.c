@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 11:45:32 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:26:05 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int				init_philo(t_targ *argt)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	if (!(argt->philo = malloc(sizeof(t_philo) * argt->nb_ph)))
@@ -35,7 +35,7 @@ int				init_philo(t_targ *argt)
 
 t_targ			*init_mut(t_targ *ar)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	if (!(ar->fork =
@@ -53,8 +53,8 @@ t_targ			*init_mut(t_targ *ar)
 
 int				ft_is_str_digit(int ac, char **av)
 {
-	int i;
-	int j;
+	int 		i;
+	int 		j;
 
 	i = 1;
 	j = 0;
@@ -86,14 +86,14 @@ t_targ			*init(t_targ *time_arg, int ac, char **argv)
 		time_arg->time_to_eat = ft_atoi(argv[3]);
 		time_arg->time_to_sleep = ft_atoi(argv[4]);
 		if (time_arg->nb_ph < 3 || time_arg->time_to_die < 100 ||
-			time_arg->time_to_sleep < 10|| time_arg->time_to_eat < 10)
+			time_arg->time_to_sleep < 10 || time_arg->time_to_eat < 10)
 			return (NULL);
 		if (ac > 5)
 		{
 			time_arg->must_eat = ft_atoi(argv[5]);
 			printf("%d\n", time_arg->must_eat);
 			if (time_arg->must_eat < 0)
-					return NULL;
+					return (NULL);
 		}
 		else
 			time_arg->must_eat = 1000000;

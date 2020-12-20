@@ -6,15 +6,15 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:18:40 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:27:26 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo1.h"
 
-void		philo_sleep_or_think(t_philo *philo, int type)
+void			philo_sleep_or_think(t_philo *philo, int type)
 {
-	long long ti;
+	long long 	ti;
 
 	if (type == TYPE_SLEEP)
 	{
@@ -36,7 +36,7 @@ void		philo_sleep_or_think(t_philo *philo, int type)
 		out_message(type, philo);
 }
 
-static void *monitor(void *philo_v)
+static void 	*monitor(void *philo_v)
 {
 	t_philo		*philo;
 
@@ -64,13 +64,12 @@ static void *monitor(void *philo_v)
 	}
 }
 
-void		*philo_life(void *philo)
+void			*philo_life(void *philo)
 {
-	t_philo *phi;
+	t_philo 	*phi;
 	pthread_t	tid;
 
 	phi = (t_philo *)philo;
-	// phi->c_start = get_time();
 	phi->last_aet = get_time();
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
 	if (pthread_create(&tid, NULL, &monitor, phi) != 0)
@@ -101,7 +100,7 @@ int			philo_create(t_targ *arg)
 	pthread_t	tid;
 
 	i = 0;
-	while(i < arg->nb_ph)
+	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
 	i = 0;
 	while (i < arg->nb_ph)
