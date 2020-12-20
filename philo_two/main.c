@@ -6,24 +6,24 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:10:50 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:25:17 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-static void 	*end_prog_sem(t_philo *philo, int type)
+static void		*end_prog_sem(t_philo *philo, int type)
 {
 	if (out_message(type, philo))
 		return ((void*)0);
-	if(sem_post(philo->mutex))
+	if (sem_post(philo->mutex))
 		return ((void*)0);
 	if (sem_post(philo->argg->somebody_dead_m))
-		return  ((void*)0);
+		return ((void*)0);
 	return ((void*)0);
 }
 
-static void *monitor(void *philo_v)
+static void		*monitor(void *philo_v)
 {
 	t_philo		*philo;
 
