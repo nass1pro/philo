@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 14:50:05 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:17:53 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ void					message_tru(t_philo *philo,
 						char *id, char *time_stamp, int type);
 int						ft_error(int type);
 char					*ft_strncat(char *dest, const char *src, size_t n);
+int						philo_sleep_or_think(t_philo *philo, int type);
 
 #endif
