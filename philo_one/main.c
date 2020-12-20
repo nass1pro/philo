@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 13:57:40 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:18:40 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void		*philo_life(void *philo)
 	pthread_t	tid;
 
 	phi = (t_philo *)philo;
-	phi->c_start = get_time();
+	// phi->c_start = get_time();
 	phi->last_aet = get_time();
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
 	if (pthread_create(&tid, NULL, &monitor, phi) != 0)
@@ -101,10 +101,12 @@ int			philo_create(t_targ *arg)
 	pthread_t	tid;
 
 	i = 0;
+	while(i < arg->nb_ph)
+		arg->philo[i++].c_start = get_time();
+	i = 0;
 	while (i < arg->nb_ph)
 	{
 		pthread_create(&tid, NULL, &philo_life, &arg->philo[i]);
-		arg->philo[i].c_start = get_time();
 		pthread_detach(tid);
 		usleep(100);
 		i++;
