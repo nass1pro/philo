@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:35:39 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:38:59 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,6 @@ void				*philo_life(void *philo)
 	}
 	return (void *)0;
 }
-
-/*
-** 1: number_of_philosopher
-** 2: time_to_die
-** 3: time_to_eat
-** 4: time_to_sleep
-** 5: optionel[number_of_time_each_philosophers_must_eat]
-*/
 
 int					philo_create(t_targ *arg)
 {
