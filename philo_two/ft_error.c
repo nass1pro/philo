@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 10:12:54 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/11/13 12:15:12 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:53:39 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ int			ft_error(int type)
 	else if (type == TYPE_ER_MAL)
 		write(1, "malloc error\n", 13);
 	else if (type == TYPE_ER_MUT)
-		write(1, "mutex error\n", 12);
+		write(1, "sema error\n", 11);
 	return (type);
 }
