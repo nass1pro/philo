@@ -6,41 +6,13 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 16:13:59 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:10:50 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-int		philo_sleep_or_think(t_philo *philo, int type)
-{
-	long long ti;
-
-	if (type == TYPE_SLEEP)
-	{
-		if (philo->argg->time_to_eat > philo->argg->time_to_die ||
-			philo->argg->time_to_sleep >= philo->argg->time_to_die)
-		{
-			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			if (out_message(type, philo))
-				return (1);
-			usleep(ti * 1000);
-			return (1);
-		}
-		else
-		{
-			usleep(philo->argg->time_to_sleep * 1000);
-			if (out_message(type, philo))
-				return (1);
-		}
-	}
-	else
-		if (out_message(type, philo))
-			return (1);
-	return 0;
-}
-
-static void *end_prog_sem(t_philo *philo, int type)
+static void 	*end_prog_sem(t_philo *philo, int type)
 {
 	if (out_message(type, philo))
 		return ((void*)0);
@@ -115,14 +87,6 @@ int			philo_create(t_targ *arg)
 	}
 	return (0);
 }
-
-/*
-** 1: number_of_philosopher
-** 2: time_to_die
-** 3: time_to_eat
-** 4: time_to_sleep
-** 5: optionel[number_of_time_each_philosophers_must_eat]
-*/
 
 int			main(int ac, char **argv)
 {

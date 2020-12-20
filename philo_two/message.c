@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 14:47:33 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:05:52 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char		*ft_int_to_char(long long n, char *str)
 	if (n == 0)
 	{
 		str[0] = '0';
-		return str;
+		return (str);
 	}
 	length = 0;
 	while (n != 0)
@@ -75,13 +75,13 @@ int			out_message(int type, t_philo *philo)
 		return (0);
 	if (!(id = malloc(sizeof(char) * 5)))
 		return (0);
-	if  (sem_wait(philo->argg->write_sc))
+	if (sem_wait(philo->argg->write_sc))
 		return (1);
 	message_tru(philo, id, time_stamp, type);
 	free(time_stamp);
 	free(id);
 	if (type != TYPE_DIED && type != TYPE_OVER)
 		if (sem_post(philo->argg->write_sc))
-			return  1;
+			return (1);
 	return (0);
 }
