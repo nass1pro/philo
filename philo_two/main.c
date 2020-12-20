@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 11:17:06 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 11:22:07 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,7 @@ int				main(int ac, char **argv)
 		return (ft_error(TYPE_ER_MAL));
 	}
 	if (philo_create(arg))
-	{
-		clear_all(*arg);
-		return (1);
-	}
+		return (clear_all(*arg));
 	if (sem_wait(arg->somebody_dead_m))
 		return (0);
 	clear_all(*arg);
