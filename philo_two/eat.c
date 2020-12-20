@@ -6,15 +6,15 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:10:45 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:21:08 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-int			philo_eat(t_philo *philo)
+int				philo_eat(t_philo *philo)
 {
-	long long ti;
+	long long	ti;
 
 	ti = 0;
 	if (sem_wait(philo->mutex))
@@ -26,14 +26,12 @@ int			philo_eat(t_philo *philo)
 	if (out_message(TYPE_EAT, philo))
 		return (1);
 	usleep(philo->argg->time_to_eat * 1000);
-
 	philo->last_aet = get_time();
 	philo->is_eat = 0;
 	if (sem_post(philo->mutex))
 		return (1);
 	return (0);
 }
-
 
 int				philo_sleep_or_think(t_philo *philo, int type)
 {
