@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:26:05 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:32:35 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ t_targ			*init_mut(t_targ *ar)
 
 int				ft_is_str_digit(int ac, char **av)
 {
-	int 		i;
-	int 		j;
+	int			i;
+	int			j;
 
 	i = 1;
 	j = 0;
