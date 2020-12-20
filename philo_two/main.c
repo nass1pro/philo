@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:35:27 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:37:28 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void		*monitor(void *philo_v)
 void			*philo_life(void *philo)
 {
 	t_philo		*phi;
-	pthread_t 	tid;
+	pthread_t	tid;
 
 	phi = (t_philo *)philo;
 	phi->last_aet = get_time();
@@ -71,8 +71,8 @@ void			*philo_life(void *philo)
 
 int				philo_create(t_targ *arg)
 {
-	int 		i;
-	pthread_t 	tid;
+	int			i;
+	pthread_t	tid;
 
 	i = 0;
 	while (i < arg->nb_ph)
