@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 11:46:00 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:48:10 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ struct s_targ;
 typedef struct			s_philo
 {
 	int					id;
-	long long 			limit;
+	long long			limit;
 	long long			c_start;
 	long long			last_aet;
 	long long			time_die;
 	int					count_eat;
 	int					l_fork;
 	int					r_fork;
-	int 				is_eat;
+	int					is_eat;
 	struct s_targ		*argg;
 	pthread_t			t_ph;
 	pthread_mutex_t		mutex;
@@ -51,14 +51,13 @@ typedef struct			s_philo
 typedef struct			s_targ
 {
 	int					nb_ph;
-	long long 			start;
+	long long			start;
 	long long			time_to_die;
 	long long			time_to_eat;
 	long long			time_to_sleep;
 	int					must_eat_arg;
 	int					must_eat;
-	int 				philo_dead;
-
+	int					philo_dead;
 	pthread_mutex_t		somebody_dead_m;
 	struct s_philo		*philo;
 	pthread_mutex_t		*fork;

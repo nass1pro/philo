@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 13:09:24 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:24:32 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:44:29 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void			philo_eat(t_philo *philo)
 {
-
 	pthread_mutex_lock(&philo->mutex);
 	philo->count_eat++;
 	philo->is_eat = 1;
