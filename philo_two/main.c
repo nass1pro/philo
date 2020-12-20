@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:25:17 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:32:35 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void		*monitor(void *philo_v)
 	while (1)
 	{
 		if (sem_wait(philo->mutex))
-			return  ((void*)0);
+			return ((void*)0);
 		if (philo->argg->must_eat != 0 && philo->count_eat ==
 			philo->argg->must_eat)
 			return (end_prog_sem(philo, TYPE_OVER));
@@ -44,10 +44,10 @@ static void		*monitor(void *philo_v)
 	return ((void*)0);
 }
 
-void		*philo_life(void *philo)
+void			*philo_life(void *philo)
 {
-	t_philo *phi;
-	pthread_t tid;
+	t_philo		*phi;
+	pthread_t 	tid;
 	phi = (t_philo *)philo;
 	phi->last_aet = get_time();
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
@@ -61,17 +61,17 @@ void		*philo_life(void *philo)
 		if (philo_eat(phi))
 			return ((void*)0);
 		if (clean_fork(phi))
-			return ((void*)0);;
+			return ((void*)0);
 		philo_sleep_or_think(phi, TYPE_SLEEP);
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
 	return ((void *)0);
 }
 
-int			philo_create(t_targ *arg)
+int				philo_create(t_targ *arg)
 {
-	int i;
-	pthread_t tid;
+	int 		i;
+	pthread_t 	tid;
 
 	i = 0;
 	while (i < arg->nb_ph)
@@ -88,10 +88,10 @@ int			philo_create(t_targ *arg)
 	return (0);
 }
 
-int			main(int ac, char **argv)
+int				main(int ac, char **argv)
 {
-	t_targ	*arg;
-	int		i;
+	t_targ		*arg;
+	int			i;
 
 	i = 0;
 	if (ac < 5 || ac > 6)
