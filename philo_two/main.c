@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:54:01 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 11:17:06 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				main(int ac, char **argv)
 
 	i = 0;
 	if (ac < 5 || ac > 6)
-		return (1);
+		return (ft_error(TYPE_ER_ARG));
 	if (!(arg = malloc(sizeof(t_targ ) * 1)))
 		return (ft_error(TYPE_ER_MAL));
 	if (!(arg = init(arg, ac, argv)))
@@ -104,14 +104,18 @@ int				main(int ac, char **argv)
 		free(arg);
 		return (ft_error(TYPE_ER_ARG));
 	}
-	init_philo(arg);
+	if (init_philo(arg))
+	{
+		free(arg);
+		return (ft_error(TYPE_ER_MAL));
+	}
 	if (philo_create(arg))
 	{
 		clear_all(*arg);
-		return (ft_error(TYPE_ER_MUT));
+		return (1);
 	}
 	if (sem_wait(arg->somebody_dead_m))
-		return (ft_error(TYPE_ER_MUT));
+		return (0);
 	clear_all(*arg);
 	return (0);
 }

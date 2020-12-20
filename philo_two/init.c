@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:42:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:07:03 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 11:15:07 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			init_philo(t_targ *argt)
 
 	i = 0;
 	if (!(argt->philo = malloc(sizeof(t_philo) * argt->nb_ph)))
-		return (0);
+		return (1);
 	while (i <= argt->nb_ph)
 	{
 		argt->philo[i].id = i + 1;
@@ -29,7 +29,7 @@ int			init_philo(t_targ *argt)
 		argt->philo[i].mutex = sem_open("mutex", O_CREAT | O_EXCL, S_IRWXU, 1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 t_targ		*init_sem(t_targ *ar)
@@ -81,7 +81,7 @@ t_targ		*init(t_targ *time_arg, int ac, char **argv)
 		time_arg->time_to_die = ft_atoi(argv[2]);
 		time_arg->time_to_eat = ft_atoi(argv[3]);
 		time_arg->time_to_sleep = ft_atoi(argv[4]);
-		if (time_arg->nb_ph < 2 || time_arg->time_to_die < 300 ||
+		if (time_arg->nb_ph < 2 || time_arg->time_to_die < 30 ||
 			time_arg->time_to_die < 10 || time_arg->time_to_sleep < 10 ||
 			time_arg->time_to_die < 10)
 			return (NULL);
