@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:17:53 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:40:58 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ typedef struct			s_philo
 	long long			c_start;
 	long long			last_aet;
 	long long			time_die;
-	long long 			limit;
+	long long			limit;
 	int					count_eat;
 	struct s_targ		*argg;
-	sem_t 				*mutex;
-	int 				is_eat;
+	sem_t				*mutex;
+	int					is_eat;
 	pthread_t			t_ph;
 }						t_philo;
 
@@ -71,8 +71,8 @@ int						philo_eat(t_philo *philo);
 long long				get_time(void);
 int						out_message(int type, t_philo *philo);
 char					*get_status(int type);
-int 					take_fork(t_philo *philo);
-int 					clean_fork(t_philo *philo);
+int						take_fork(t_philo *philo);
+int						clean_fork(t_philo *philo);
 void					message_tru(t_philo *philo,
 						char *id, char *time_stamp, int type);
 int						ft_error(int type);
