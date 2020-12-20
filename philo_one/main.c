@@ -6,15 +6,15 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:29:28 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:35:39 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo1.h"
 
-void			philo_sleep_or_think(t_philo *philo, int type)
+void				philo_sleep_or_think(t_philo *philo, int type)
 {
-	long long 	ti;
+	long long	ti;
 
 	if (type == TYPE_SLEEP)
 	{
@@ -36,7 +36,7 @@ void			philo_sleep_or_think(t_philo *philo, int type)
 		out_message(type, philo);
 }
 
-static void 	*monitor(void *philo_v)
+static void 		*monitor(void *philo_v)
 {
 	t_philo		*philo;
 
@@ -64,7 +64,7 @@ static void 	*monitor(void *philo_v)
 	}
 }
 
-void			*philo_life(void *philo)
+void				*philo_life(void *philo)
 {
 	t_philo 	*phi;
 	pthread_t	tid;
@@ -94,7 +94,7 @@ void			*philo_life(void *philo)
 ** 5: optionel[number_of_time_each_philosophers_must_eat]
 */
 
-int				philo_create(t_targ *arg)
+int					philo_create(t_targ *arg)
 {
 	int i;
 	pthread_t	tid;
@@ -113,7 +113,7 @@ int				philo_create(t_targ *arg)
 	return (0);
 }
 
-int				main(int ac, char **argv)
+int					main(int ac, char **argv)
 {
 	t_targ	*arg;
 	int		i;
