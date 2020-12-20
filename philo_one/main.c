@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:50:26 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 09:55:56 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void				philo_sleep_or_think(t_philo *philo, int type)
 		out_message(type, philo);
 }
 
-static void 		*monitor(void *philo_v)
+static void			*monitor(void *philo_v)
 {
 	t_philo		*philo;
 
@@ -66,7 +66,7 @@ static void 		*monitor(void *philo_v)
 
 void				*philo_life(void *philo)
 {
-	t_philo 	*phi;
+	t_philo		*phi;
 	pthread_t	tid;
 
 	phi = (t_philo *)philo;
@@ -88,7 +88,7 @@ void				*philo_life(void *philo)
 
 int					philo_create(t_targ *arg)
 {
-	int i;
+	int			i;
 	pthread_t	tid;
 
 	i = 0;
