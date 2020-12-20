@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:32:35 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/20 10:35:27 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void		*monitor(void *philo_v)
 			philo->argg->must_eat)
 			return (end_prog_sem(philo, TYPE_OVER));
 		if (!philo->is_eat && get_time() > philo->limit)
-			return (end_prog_sem(philo,TYPE_DIED));
+			return (end_prog_sem(philo, TYPE_DIED));
 		if (sem_post(philo->mutex))
 			return ((void*)0);
 		usleep(1000);
@@ -48,6 +48,7 @@ void			*philo_life(void *philo)
 {
 	t_philo		*phi;
 	pthread_t 	tid;
+
 	phi = (t_philo *)philo;
 	phi->last_aet = get_time();
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
@@ -107,10 +108,10 @@ int				main(int ac, char **argv)
 	if (philo_create(arg))
 	{
 		clear_all(*arg);
-		return 1;
+		return (1);
 	}
 	if (sem_wait(arg->somebody_dead_m))
-		return 0;
+		return (0);
 	clear_all(*arg);
 	return (0);
 }
