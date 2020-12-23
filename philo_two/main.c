@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 11:22:07 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 14:07:59 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,27 @@ static void		*end_prog_sem(t_philo *philo, int type)
 	return ((void*)0);
 }
 
+static void			*monitor_eat(void *arg_v)
+{
+	t_targ 			*arg;
+	int				i;
+
+	arg = (t_targ*)arg_v;
+	while (arg->cur_eat < arg->must_eat)
+	{
+		i = 0;
+		while (i < arg->nb_ph)
+			if (sem_wait(arg->philo[i++].eat))
+				return ((void*)0);
+		arg->cur_eat++;
+	}
+	if (end_prog_sem(&arg->philo[0], TYPE_OVER))
+		return ((void*)0);
+	if (sem_wait(arg->somebody_dead_m))
+		return ((void*)0);
+	return ((void*)0);
+}
+
 static void		*monitor(void *philo_v)
 {
 	t_philo		*philo;
@@ -32,14 +53,15 @@ static void		*monitor(void *philo_v)
 	{
 		if (sem_wait(philo->mutex))
 			return ((void*)0);
-		if (philo->argg->must_eat != 0 && philo->count_eat ==
-			philo->argg->must_eat)
-			return (end_prog_sem(philo, TYPE_OVER));
 		if (!philo->is_eat && get_time() > philo->limit)
-			return (end_prog_sem(philo, TYPE_DIED));
+		{
+			if (end_prog_sem(philo, TYPE_DIED))
+				return ((void*)0);
+			return ((void*)0);
+		}
 		if (sem_post(philo->mutex))
 			return ((void*)0);
-		usleep(1000);
+		usleep(10);
 	}
 	return ((void*)0);
 }
@@ -50,7 +72,7 @@ void			*philo_life(void *philo)
 	pthread_t	tid;
 
 	phi = (t_philo *)philo;
-	phi->last_aet = get_time();
+	phi->last_aet = phi->c_start;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
 	if (pthread_create(&tid, NULL, &monitor, philo) != 0)
 		return ((void*)1);
@@ -77,6 +99,12 @@ int				philo_create(t_targ *arg)
 	i = 0;
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
+	if (arg->must_eat > 0)
+	{
+		if (pthread_create(&tid, NULL, &monitor_eat, arg) != 0)
+			return (1);
+		pthread_detach(tid);
+	}
 	i = 0;
 	while (i < arg->nb_ph)
 	{

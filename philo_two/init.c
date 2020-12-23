@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:42:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 11:15:07 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 13:35:33 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int			init_philo(t_targ *argt)
 		argt->philo[i].is_eat = 0;
 		sem_unlink("mutex");
 		argt->philo[i].mutex = sem_open("mutex", O_CREAT | O_EXCL, S_IRWXU, 1);
+		sem_unlink("eat");
+		argt->philo[i].eat = sem_open("eat", O_CREAT | O_EXCL, S_IRWXU, 0);
 		i++;
 	}
 	return (0);
@@ -44,6 +46,7 @@ t_targ		*init_sem(t_targ *ar)
 	sem_unlink("dead");
 	ar->somebody_dead_m = sem_open("dead", O_CREAT | O_EXCL, S_IRWXU, 0);
 	ar->philo_dead = 0;
+	ar->cur_eat = 0;
 	return (ar);
 }
 
@@ -81,14 +84,14 @@ t_targ		*init(t_targ *time_arg, int ac, char **argv)
 		time_arg->time_to_die = ft_atoi(argv[2]);
 		time_arg->time_to_eat = ft_atoi(argv[3]);
 		time_arg->time_to_sleep = ft_atoi(argv[4]);
-		if (time_arg->nb_ph < 2 || time_arg->time_to_die < 30 ||
-			time_arg->time_to_die < 10 || time_arg->time_to_sleep < 10 ||
-			time_arg->time_to_die < 10)
+		if (time_arg->nb_ph < 2 || time_arg->time_to_die < 60 ||
+			time_arg->time_to_sleep < 60 || time_arg->time_to_eat < 60 ||
+			time_arg->nb_ph > 200)
 			return (NULL);
 		if (ac > 5)
 			time_arg->must_eat = ft_atoi(argv[5]);
 		else
-			time_arg->must_eat = 100000;
+			time_arg->must_eat = 0;
 		return (init_sem(time_arg));
 	}
 	return (time_arg);

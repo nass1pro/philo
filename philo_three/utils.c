@@ -6,42 +6,31 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 11:49:19 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:48:26 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 14:21:36 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	get_time(void)
+void		*end_prog_sem(t_philo *philo, int type)
 {
-	static struct timeval	t;
-
-	gettimeofday(&t, NULL);
-	return ((t.tv_sec * (long long)1000) + (t.tv_usec / 1000));
+	if (out_message(type, philo))
+		return ((void*)0);
+	if (sem_post(philo->mutex))
+		return ((void*)0);
+	if (sem_post(philo->argg->somebody_dead_m))
+		return ((void*)0);
+	return ((void*)0);
 }
 
-void		philo_sleep_or_think(t_philo *philo, int type)
+size_t		ft_strlen(char *str)
 {
-	long long ti;
+	size_t	i;
 
-	if (type == TYPE_SLEEP)
-	{
-		if (philo->argg->time_to_eat > philo->argg->time_to_die ||
-			philo->argg->time_to_sleep >= philo->argg->time_to_die)
-		{
-			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			usleep(ti * 1000);
-			out_message(type, philo);
-			return ;
-		}
-		else
-		{
-			usleep(philo->argg->time_to_sleep * 1000);
-			out_message(type, philo);
-		}
-	}
-	else
-		out_message(type, philo);
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }
 
 char		*ft_strncat(char *dest, const char *src, size_t n)
@@ -60,35 +49,25 @@ char		*ft_strncat(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-char		*ft_int_to_char(long long n, char *str)
+long long	get_time(void)
 {
-	char	c;
-	int		length;
+	static struct timeval	t;
 
-	if (n == 0)
-	{
-		str[0] = '0';
-		str[1] = '\0';
-		return (str);
-	}
-	length = 0;
-	while (n != 0)
-	{
-		c = '0' + (n % 10);
-		n = (n / 10);
-		str[length] = c;
-		length++;
-	}
-	str[length] = '\0';
-	return (str);
+	gettimeofday(&t, NULL);
+	return ((t.tv_sec * (long long)1000) + (t.tv_usec / 1000));
 }
 
-size_t		ft_strlen(char *str)
+char		*get_status(int type)
 {
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	if (type == TYPE_FORK)
+		return (" has taken a fork\n");
+	else if (type == TYPE_EAT)
+		return (" is eating\n");
+	else if (type == TYPE_SLEEP)
+		return (" is sleeping\n");
+	else if (type == TYPE_THINK)
+		return (" is thinking\n");
+	else if (type == TYPE_DIED)
+		return (" died\n");
+	return (" must eat count reached\n");
 }

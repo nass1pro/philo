@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:40:58 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 11:51:00 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct			s_philo
 	sem_t				*mutex;
 	int					is_eat;
 	pthread_t			t_ph;
+	sem_t				*eat;
 }						t_philo;
 
 typedef struct			s_targ
@@ -58,6 +59,7 @@ typedef struct			s_targ
 	sem_t				*fork;
 	sem_t				*write_sc;
 	int					must_eat_arg;
+	int 				cur_eat;
 	sem_t				*somebody_dead_m;
 }						t_targ;
 

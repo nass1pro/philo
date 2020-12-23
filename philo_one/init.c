@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 09:43:41 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 09:14:42 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int				init_philo(t_targ *argt)
 		argt->philo[i].r_fork = (i + 1) % argt->nb_ph;
 		argt->philo[i].argg = argt;
 		argt->philo[i].is_eat = 0;
+		pthread_mutex_init(&argt->philo[i].eat, NULL);
 		pthread_mutex_init(&argt->philo[i].mutex, NULL);
+		pthread_mutex_lock(&argt->philo[i].eat);
 		i++;
 	}
 	return (1);
@@ -85,8 +87,9 @@ t_targ			*init(t_targ *time_arg, int ac, char **argv)
 		time_arg->time_to_die = ft_atoi(argv[2]);
 		time_arg->time_to_eat = ft_atoi(argv[3]);
 		time_arg->time_to_sleep = ft_atoi(argv[4]);
-		if (time_arg->nb_ph < 3 || time_arg->time_to_die < 100 ||
-			time_arg->time_to_sleep < 10 || time_arg->time_to_eat < 10)
+		if (time_arg->nb_ph < 2 || time_arg->time_to_die < 60 ||
+			time_arg->time_to_sleep < 60 || time_arg->time_to_eat < 60 ||
+			time_arg->nb_ph > 200)
 			return (NULL);
 		if (ac > 5)
 		{
@@ -95,7 +98,7 @@ t_targ			*init(t_targ *time_arg, int ac, char **argv)
 				return (NULL);
 		}
 		else
-			time_arg->must_eat = 1000000;
+			time_arg->must_eat = 0;
 		return (init_mut(time_arg));
 	}
 	return (time_arg);

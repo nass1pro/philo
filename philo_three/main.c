@@ -6,47 +6,35 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:47:01 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 14:37:41 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void		ft_philo_dead(int type, t_philo *philo)
+void			*philo_life(void *philo)
 {
-	char *time_stamp;
-	char *id;
+	t_philo		*phi;
+	pthread_t	tid;
 
-	if (!(time_stamp = malloc(sizeof(char) * 128)))
-		return ;
-	if (!(id = malloc(sizeof(char) * 5)))
-		return ;
-	message_tru(philo, id, time_stamp, type);
-	free(time_stamp);
-	free(id);
-}
-
-void		*philo_life(t_philo *phi)
-{
-	phi->last_aet = get_time();
-	while (get_time() - phi->last_aet < phi->argg->time_to_die ||
-		phi->argg->must_eat_arg != 1)
+	phi = (t_philo *)philo;
+	phi->last_aet = phi->c_start;
+	phi->limit = phi->last_aet + phi->argg->time_to_die;
+	if (pthread_create(&tid, NULL, &monitor, philo) != 0)
+		return ((void*)1);
+	pthread_detach(tid);
+	while (1)
 	{
-		take_fork(phi);
-		if (phi->argg->must_eat_arg)
-			break ;
-		philo_eat(phi);
-		if (phi->argg->must_eat_arg)
-			break ;
-		clean_fork(phi);
-		if (phi->argg->must_eat_arg)
-			break ;
+		if (take_fork(phi))
+			return ((void*)0);
+		if (philo_eat(phi))
+			return ((void*)0);
+		if (clean_fork(phi))
+			return ((void*)0);
 		philo_sleep_or_think(phi, TYPE_SLEEP);
-		if (phi->argg->must_eat_arg)
-			break ;
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
-	return (void *)phi;
+	return ((void *)0);
 }
 
 int			philo_create(t_targ *arg)
@@ -59,6 +47,7 @@ int			philo_create(t_targ *arg)
 		return (1);
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
+	start_m(arg);
 	i = 0;
 	while (i < arg->nb_ph)
 	{
@@ -67,12 +56,11 @@ int			philo_create(t_targ *arg)
 			exit(0);
 		if (pid[i] == 0)
 			philo_life(&arg->philo[i]);
-		usleep(40);
+		usleep(100);
 		i++;
 	}
 	i = -1;
-	sem_wait(arg->philo_dead);
-	sem_wait(arg->philo_dead);
+	sem_wait(arg->somebody_dead_m);
 	while (++i != arg->nb_ph)
 		kill(pid[i], SIGUSR1);
 	return (0);

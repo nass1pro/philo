@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:38:42 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/23 11:28:43 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int				philo_eat(t_philo *philo)
 	philo->last_aet = get_time();
 	philo->is_eat = 0;
 	if (sem_post(philo->mutex))
+		return (1);
+	if (sem_post(philo->eat))
 		return (1);
 	return (0);
 }

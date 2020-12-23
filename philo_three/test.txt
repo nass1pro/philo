@@ -1,0 +1,35 @@
+1 1 has taken a fork
+1 1 has taken a fork
+1 1 is eating
+1 2 has taken a fork
+1 2 has taken a fork
+1 2 is eating
+211 3 has taken a fork
+211 4 has taken a fork
+211 4 has taken a fork
+211 3 has taken a fork
+211 4 is eating
+211 3 is eating
+421 1 is sleeping
+421 1 is thinking
+421 2 is sleeping
+421 2 is thinking
+422 2 has taken a fork
+422 2 has taken a fork
+422 1 has taken a fork
+423 2 is eating
+423 1 has taken a fork
+423 1 is eating
+633 4 is sleeping
+633 3 is sleeping
+633 4 is thinking
+633 3 is thinking
+633 4 has taken a fork
+633 3 has taken a fork
+633 4 has taken a fork
+633 3 has taken a fork
+633 3 is eating
+633 4 is eating
+844 1 is sleeping
+844 2 is sleeping
+844 1 must eat count reached
