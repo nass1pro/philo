@@ -10,31 +10,34 @@
 201 4 has taken a fork
 201 4 has taken a fork
 201 4 is eating
-403 1 is sleeping
-403 1 is thinking
-403 1 has taken a fork
-403 1 has taken a fork
-403 1 is eating
-403 3 is sleeping
-403 3 is thinking
-403 3 has taken a fork
-403 3 has taken a fork
-403 3 is eating
-603 4 is sleeping
-603 4 is thinking
-603 2 is sleeping
-603 2 is thinking
-603 2 has taken a fork
-603 2 has taken a fork
-603 2 is eating
-603 4 has taken a fork
-603 4 has taken a fork
-603 4 is eating
-804 1 is sleeping
-804 1 is thinking
-804 1 has taken a fork
-804 1 has taken a fork
-804 1 is eating
-804 3 is sleeping
-804 3 is thinking
-804 1 must eat count reached
+401 3 is sleeping
+401 3 is thinking
+401 3 has taken a fork
+401 3 has taken a fork
+401 3 is eating
+401 1 is sleeping
+401 1 is thinking
+401 1 has taken a fork
+401 1 has taken a fork
+401 1 is eating
+601 2 is sleeping
+601 2 is thinking
+601 4 is sleeping
+601 4 is thinking
+601 4 has taken a fork
+601 4 has taken a fork
+601 2 has taken a fork
+601 4 is eating
+601 2 has taken a fork
+601 2 is eating
+801 3 is sleeping
+801 3 is thinking
+801 1 is sleeping
+801 3 has taken a fork
+801 3 has taken a fork
+801 3 is eating
+801 1 is thinking
+801 1 has taken a fork
+801 1 has taken a fork
+801 1 is eating
+801 1 must eat count reached

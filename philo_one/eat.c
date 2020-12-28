@@ -6,13 +6,13 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 13:09:24 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 09:31:33 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:27:24 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo1.h"
 
-void			philo_eat(t_philo *philo)
+void				philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex);
 	philo->count_eat++;

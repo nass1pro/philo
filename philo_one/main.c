@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 09:39:07 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:26:58 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void			*monitor_eat(void *arg_v)
 {
-	t_targ 			*arg;
+	t_targ			*arg;
 	int				i;
 	int				total;
 
