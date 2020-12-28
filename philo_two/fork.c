@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:28:19 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:02:33 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:30:50 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,16 @@ int		clean_fork(t_philo *philo)
 	if (sem_post(philo->argg->fork))
 		return (1);
 	return (0);
+}
+
+
+void		*end_prog_sem(t_philo *philo, int type)
+{
+	if (out_message(type, philo))
+		return ((void*)0);
+	if (sem_post(philo->mutex))
+		return ((void*)0);
+	if (sem_post(philo->argg->somebody_dead_m))
+		return ((void*)0);
+	return ((void*)0);
 }

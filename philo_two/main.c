@@ -6,22 +6,11 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 14:07:59 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:31:30 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
-
-static void		*end_prog_sem(t_philo *philo, int type)
-{
-	if (out_message(type, philo))
-		return ((void*)0);
-	if (sem_post(philo->mutex))
-		return ((void*)0);
-	if (sem_post(philo->argg->somebody_dead_m))
-		return ((void*)0);
-	return ((void*)0);
-}
 
 static void			*monitor_eat(void *arg_v)
 {
@@ -44,7 +33,7 @@ static void			*monitor_eat(void *arg_v)
 	return ((void*)0);
 }
 
-static void		*monitor(void *philo_v)
+static void			*monitor(void *philo_v)
 {
 	t_philo		*philo;
 
@@ -66,7 +55,7 @@ static void		*monitor(void *philo_v)
 	return ((void*)0);
 }
 
-void			*philo_life(void *philo)
+void				*philo_life(void *philo)
 {
 	t_philo		*phi;
 	pthread_t	tid;
@@ -91,7 +80,7 @@ void			*philo_life(void *philo)
 	return ((void *)0);
 }
 
-int				philo_create(t_targ *arg)
+int					philo_create(t_targ *arg)
 {
 	int			i;
 	pthread_t	tid;
@@ -117,7 +106,7 @@ int				philo_create(t_targ *arg)
 	return (0);
 }
 
-int				main(int ac, char **argv)
+int					main(int ac, char **argv)
 {
 	t_targ		*arg;
 	int			i;
