@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 14:37:41 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:43:08 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void			*philo_life(void *philo)
 	return ((void *)0);
 }
 
-int			philo_create(t_targ *arg)
+int				philo_create(t_targ *arg)
 {
-	int		i;
-	pid_t	*pid;
+	int			i;
+	pid_t		*pid;
 
 	i = 0;
 	if (!(pid = malloc(sizeof(pid_t) * arg->nb_ph)))
@@ -66,10 +66,10 @@ int			philo_create(t_targ *arg)
 	return (0);
 }
 
-int			main(int ac, char **argv)
+int				main(int ac, char **argv)
 {
-	t_targ	*arg;
-	int		i;
+	t_targ		*arg;
+	int			i;
 
 	i = 0;
 	if (ac < 5 || ac > 6)
