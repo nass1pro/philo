@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 14:29:12 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:38:46 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:41:02 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void			*monitor(void *philo_v)
 
 int				start_m(t_targ *arg)
 {
-    pthread_t	tid;
+	pthread_t	tid;
 
-    if (arg->must_eat > 0)
-    {
-        if (pthread_create(&tid, NULL, &monitor_eat, arg) != 0)
-            return (1);
-        pthread_detach(tid);
-    }
-    return (0);
+	if (arg->must_eat > 0)
+	{
+		if (pthread_create(&tid, NULL, &monitor_eat, arg) != 0)
+			return (1);
+		pthread_detach(tid);
+	}
+	return (0);
 }
