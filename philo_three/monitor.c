@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 14:29:12 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 14:33:38 by nahaddac         ###   ########.fr       */
+/*   Updated: 2020/12/28 12:38:46 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void			*monitor_eat(void *arg_v)
 	return ((void*)0);
 }
 
-void		*monitor(void *philo_v)
+void			*monitor(void *philo_v)
 {
 	t_philo		*philo;
 
@@ -55,7 +55,7 @@ void		*monitor(void *philo_v)
 	return ((void*)0);
 }
 
-int         start_m(t_targ *arg)
+int				start_m(t_targ *arg)
 {
     pthread_t	tid;
 
