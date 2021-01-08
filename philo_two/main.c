@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 06:52:04 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 18:13:16 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void			*monitor_eat(void *phi)
 {
-	// t_targ			*arg;
-	// int				i;
 	t_philo 			*philo;
 
 	philo = (t_philo*)phi;
@@ -52,7 +50,7 @@ static void			*monitor(void *arg)
 		while (i < ar->nb_ph)
 		{
 			i = 0;
-			if (get_time() > ar->philo[i].limit + 2)
+			if (philo->last_aet > ar->philo[i].limit + 2)
 			{
 				l = 0;
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
@@ -94,12 +92,6 @@ int					philo_create(t_targ *arg)
 	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
-	// if (arg->must_eat > 0)
-	// {
-	// 	if (pthread_create(&tid, NULL, &monitor_eat, arg) != 0)
-	// 		return (1);
-	// 	pthread_detach(tid);
-	// }
 	if (pthread_create(&tid, NULL, &monitor, arg) != 0)
 		return (1);
 	pthread_detach(tid);
