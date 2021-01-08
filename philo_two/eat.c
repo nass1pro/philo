@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 19:23:41 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 20:21:49 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int				philo_sleep_or_think(t_philo *philo, int type)
 			usleep(philo->argg->time_to_sleep * 1000);
 		}
 	}
-	// else if (out_message(type, philo))
-	// 	return (1);
+	else if (out_message(type, philo))
+		return (1);
 	return (0);
 }

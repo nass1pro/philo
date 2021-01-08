@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 19:54:21 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 23:07:43 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ static void			*monitor(void *arg)
 		while (i < ar->nb_ph)
 		{
 			i = 0;
-			if (get_time() > ar->philo[i].limit)
+			if (get_time() > ar->philo[i].limit + 2)
 			{
 				l = 0;
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
 					return ((void*)1);
 				return ((void*)0);
 			}
-			usleep(1);
+			usleep(10);
 			i++;
 		}
 	}
@@ -84,16 +84,35 @@ void				*philo_life(void *philo)
 	return ((void *)0);
 }
 
+void 				*monitor_flush(void *arg)
+{
+	t_targ			*ar;
+
+	ar = (t_targ *)arg;
+	while (1)
+	{
+		sem_wait(ar->write_sc);
+		put_buff();
+		sem_post(ar->write_sc);
+		usleep(250000);
+	}
+	return ((void*)0);
+}
+
 int					philo_create(t_targ *arg)
 {
 	int			i;
 	pthread_t	tid;
+	pthread_t	flush;
 
 	i = 0;
 	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
 	i = -1;
+	if (pthread_create(&flush, NULL, &monitor_flush, arg) != 0)
+		return (1);
+	pthread_detach(flush);
 	while (++i < arg->nb_ph)
 	{
 		if (i % 2 == 0)
