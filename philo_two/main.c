@@ -6,76 +6,81 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:36:02 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 06:52:04 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-static void			*monitor_eat(void *arg_v)
+void			*monitor_eat(void *phi)
 {
-	t_targ			*arg;
-	int				i;
+	// t_targ			*arg;
+	// int				i;
+	t_philo 			*philo;
 
-	arg = (t_targ*)arg_v;
-	while (arg->cur_eat < arg->must_eat)
-	{
-		i = 0;
-		while (i < arg->nb_ph)
-			if (sem_wait(arg->philo[i++].eat))
-				return ((void*)0);
-		arg->cur_eat++;
-	}
-	if (end_prog_sem(&arg->philo[0], TYPE_OVER))
-		return ((void*)0);
-	if (sem_wait(arg->somebody_dead_m))
-		return ((void*)0);
-	return ((void*)0);
-}
-
-static void			*monitor(void *philo_v)
-{
-	t_philo		*philo;
-
-	philo = (t_philo*)philo_v;
-	while (1)
-	{
-		if (sem_wait(philo->mutex))
-			return ((void*)0);
-		if (!philo->is_eat && get_time() > philo->limit)
+	philo = (t_philo*)phi;
+	if (philo->argg->must_eat > 0)
+		if (philo->count_eat == philo->argg->must_eat)
 		{
-			if (end_prog_sem(philo, TYPE_DIED))
-				return ((void*)0);
+			sem_wait(philo->mutex);
+			if(philo->argg->cur_eat >= (philo->argg->must_eat * philo->argg->nb_ph))
+			{
+				if (end_prog_sem(philo, TYPE_OVER))
+					return ((void*)0);
+				if (sem_wait(philo->argg->somebody_dead_m))
+					return ((void*)0);
+			}
+			else
+				sem_wait(philo->mutex);
 			return ((void*)0);
 		}
-		if (sem_post(philo->mutex))
-			return ((void*)0);
-		usleep(10);
+	sem_post(philo->mutex);
+	return ((void*)0);
+}
+
+static void			*monitor(void *arg)
+{
+	int 		l;
+	t_targ 		*ar;
+	int			i = 0;
+
+	ar = (t_targ*)arg;
+	l = 1;
+	usleep(110);
+	while (l)
+	{
+		while (i < ar->nb_ph)
+		{
+			i = 0;
+			if (get_time() > ar->philo[i].limit + 2)
+			{
+				l = 0;
+				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
+					return ((void*)1);
+				return ((void*)0);
+			}
+			i++;
+		}
 	}
 	return ((void*)0);
 }
+
 
 void				*philo_life(void *philo)
 {
 	t_philo		*phi;
-	pthread_t	tid;
 
 	phi = (t_philo *)philo;
-	phi->last_aet = phi->c_start;
+	phi->last_aet = get_time();
+	phi->current = get_time() - phi->last_aet;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
-	if (pthread_create(&tid, NULL, &monitor, philo) != 0)
-		return ((void*)1);
-	pthread_detach(tid);
+	sem_wait(phi->mutex);
 	while (1)
 	{
+		sem_post(phi->mutex);
+		monitor_eat(phi);
 		if (take_fork(phi))
 			return ((void*)0);
-		if (philo_eat(phi))
-			return ((void*)0);
-		if (clean_fork(phi))
-			return ((void*)0);
-		philo_sleep_or_think(phi, TYPE_SLEEP);
-		philo_sleep_or_think(phi, TYPE_THINK);
 	}
 	return ((void *)0);
 }
@@ -86,21 +91,24 @@ int					philo_create(t_targ *arg)
 	pthread_t	tid;
 
 	i = 0;
+	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
-	if (arg->must_eat > 0)
-	{
-		if (pthread_create(&tid, NULL, &monitor_eat, arg) != 0)
-			return (1);
-		pthread_detach(tid);
-	}
+	// if (arg->must_eat > 0)
+	// {
+	// 	if (pthread_create(&tid, NULL, &monitor_eat, arg) != 0)
+	// 		return (1);
+	// 	pthread_detach(tid);
+	// }
+	if (pthread_create(&tid, NULL, &monitor, arg) != 0)
+		return (1);
+	pthread_detach(tid);
 	i = 0;
 	while (i < arg->nb_ph)
 	{
-		if (pthread_create(&tid, NULL, &philo_life, &arg->philo[i]) != 0)
+		if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
 			return (1);
-		pthread_detach(tid);
-		usleep(100);
+		pthread_detach(arg->philo[i].t_ph);
 		i++;
 	}
 	return (0);

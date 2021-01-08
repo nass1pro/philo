@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:31:03 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 05:25:48 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ typedef struct			s_philo
 	long long			limit;
 	int					count_eat;
 	struct s_targ		*argg;
-	sem_t				*mutex;
 	int					is_eat;
 	pthread_t			t_ph;
 	sem_t				*eat;
+	sem_t				*mutex;
+	long long			current;
 }						t_philo;
 
 typedef struct			s_targ
 {
 	int					nb_ph;
+	long long 			start;
 	long long			time_to_die;
 	long long			time_to_eat;
 	long long			time_to_sleep;
@@ -70,7 +72,7 @@ t_targ					*init(t_targ *arg, int ac, char **argv);
 int						init_philo(t_targ *argt);
 int						clear_all(t_targ ar);
 int						philo_eat(t_philo *philo);
-long long				get_time(void);
+long					get_time(void);
 int						out_message(int type, t_philo *philo);
 char					*get_status(int type);
 int						take_fork(t_philo *philo);
@@ -81,5 +83,9 @@ int						ft_error(int type);
 char					*ft_strncat(char *dest, const char *src, size_t n);
 int						philo_sleep_or_think(t_philo *philo, int type);
 void					*end_prog_sem(t_philo *philo, int type);
+
+// void		lock_sem(t_targ *ar);
+
+void			*monitor_eat(void *phi);
 
 #endif

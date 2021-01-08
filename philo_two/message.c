@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 12:26:58 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 06:59:42 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char		*ft_int_to_char(long long n, char *str)
 	if (n == 0)
 	{
 		str[0] = '0';
+		str[1] = '\0';
 		return (str);
 	}
 	length = 0;
@@ -55,31 +56,35 @@ char		*revers_str(char *str)
 
 void		message_tru(t_philo *philo, char *id, char *time_stamp, int type)
 {
+	if (type  == TYPE_OVER)
+		return ;
 	time_stamp = ft_int_to_char(get_time() - philo->c_start, time_stamp);
 	id = ft_int_to_char(philo->id, id);
 	revers_str(time_stamp);
 	revers_str(id);
 	time_stamp = ft_strncat(time_stamp, " ", 1);
-	time_stamp = ft_strncat(time_stamp, id, ft_strlen(id));
+	time_stamp = ft_strncat(time_stamp, id, 3);
 	time_stamp = ft_strncat(time_stamp, get_status(type),
 				ft_strlen(get_status(type)));
 	write(1, time_stamp, ft_strlen(time_stamp));
+	if (type == TYPE_FORK)
+		write(1, time_stamp, ft_strlen(time_stamp));
 }
 
 int			out_message(int type, t_philo *philo)
 {
-	char	*time_stamp;
-	char	*id;
+	char	time_stamp[128];
+	char	id[5];
 
-	if (!(time_stamp = malloc(sizeof(char) * 128)))
-		return (0);
-	if (!(id = malloc(sizeof(char) * 5)))
-		return (0);
+	time_stamp[0] = '\0';
+
+	if (philo->count_eat > philo->argg->must_eat && philo->argg->must_eat)
+		return (1);
 	if (sem_wait(philo->argg->write_sc))
 		return (1);
+	if (type == TYPE_EAT)
+		message_tru(philo, id, time_stamp, TYPE_FORK);
 	message_tru(philo, id, time_stamp, type);
-	free(time_stamp);
-	free(id);
 	if (type != TYPE_DIED && type != TYPE_OVER)
 		if (sem_post(philo->argg->write_sc))
 			return (1);

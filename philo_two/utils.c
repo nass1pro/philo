@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 12:16:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/14 11:27:29 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/07 23:29:24 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char		*ft_strncat(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-long long	get_time(void)
+long	get_time(void)
 {
 	static struct timeval	t;
 

@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:42:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 13:35:33 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 06:34:40 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			init_philo(t_targ *argt)
 	i = 0;
 	if (!(argt->philo = malloc(sizeof(t_philo) * argt->nb_ph)))
 		return (1);
-	while (i <= argt->nb_ph)
+	while (i < argt->nb_ph)
 	{
 		argt->philo[i].id = i + 1;
 		argt->philo[i].count_eat = 0;
