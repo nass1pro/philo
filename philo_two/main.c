@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 23:07:43 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 23:41:10 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void			*monitor(void *arg)
 					return ((void*)1);
 				return ((void*)0);
 			}
-			usleep(10);
+			usleep(1);
 			i++;
 		}
 	}
@@ -94,7 +94,7 @@ void 				*monitor_flush(void *arg)
 		sem_wait(ar->write_sc);
 		put_buff();
 		sem_post(ar->write_sc);
-		usleep(250000);
+		usleep(300000);
 	}
 	return ((void*)0);
 }
