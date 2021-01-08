@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 18:10:38 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/08 18:58:35 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				philo_eat(t_philo *philo)
 	philo->count_eat++;
 	philo->argg->cur_eat++;
 	philo->is_eat = 1;
-	philo->last_aet += philo->argg->time_to_die;
+	philo->last_aet = get_time();
 	philo->limit = philo->last_aet + philo->argg->time_to_die;
 	if (out_message(TYPE_EAT, philo))
 		return (1);
