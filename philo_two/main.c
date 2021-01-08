@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 23:41:10 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 00:04:09 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void			*monitor(void *arg)
 		while (i < ar->nb_ph)
 		{
 			i = 0;
-			if (get_time() > ar->philo[i].limit + 2)
+			if (get_time() > ar->philo[i].limit)
 			{
 				l = 0;
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
@@ -115,8 +115,8 @@ int					philo_create(t_targ *arg)
 	pthread_detach(flush);
 	while (++i < arg->nb_ph)
 	{
-		if (i % 2 == 0)
-			continue;
+		// if (i % 2 == 0)
+		// 	continue;
 		if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
 		{
 			while (--i >= 0)
@@ -125,17 +125,17 @@ int					philo_create(t_targ *arg)
 		}
 	}
 	i = -1;
-	while (++i < arg->nb_ph)
-	{
-		if (i % 2 == 1)
-			continue;
-		if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
-		{
-			while (--i >= 0)
-				pthread_detach(arg->philo[i].t_ph);
-			return 1;
-		}
-	}
+	// while (++i < arg->nb_ph)
+	// {
+	// 	if (i % 2 == 1)
+	// 		continue;
+	// 	if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
+	// 	{
+	// 		while (--i >= 0)
+	// 			pthread_detach(arg->philo[i].t_ph);
+	// 		return 1;
+	// 	}
+	// }
 	if (pthread_create(&tid, NULL, &monitor, arg) != 0)
 		return (1);
 	pthread_detach(tid);
