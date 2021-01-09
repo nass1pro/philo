@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 02:00:14 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 03:36:14 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int				philo_eat(t_philo *philo)
 	philo->limit = philo->last_aet + philo->argg->time_to_die;
 	if (out_message(TYPE_EAT, philo))
 		return (1);
-	philo->current = get_time() - philo->last_aet;
 	usleep(philo->argg->time_to_eat * 1000);
 	clean_fork(philo);
 	philo->is_eat = 0;

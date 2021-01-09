@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 02:30:30 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 03:23:50 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,26 @@ struct s_targ;
 typedef struct			s_philo
 {
 	int					id;
-	long long			c_start;
-	long long			last_aet;
-	long long			time_die;
-	long long			limit;
+	long int			c_start;
+	long int			last_aet;
+	long int			time_die;
+	long int			limit;
 	int					count_eat;
 	struct s_targ		*argg;
 	int					is_eat;
 	pthread_t			t_ph;
 	sem_t				*eat;
 	sem_t				*mutex;
-	long long			current;
+	long int			current;
 }						t_philo;
 
 typedef struct			s_targ
 {
 	int					nb_ph;
-	long long 			start;
-	long long			time_to_die;
-	long long			time_to_eat;
-	long long			time_to_sleep;
+	long int 			start;
+	long int			time_to_die;
+	long int			time_to_eat;
+	long int			time_to_sleep;
 	int					must_eat;
 	int					philo_dead;
 	struct s_philo		*philo;
@@ -79,7 +79,7 @@ t_targ					*init(t_targ *arg, int ac, char **argv);
 int						init_philo(t_targ *argt);
 int						clear_all(t_targ ar);
 int						philo_eat(t_philo *philo);
-long					get_time(void);
+long int				get_time(void);
 int						out_message(int type, t_philo *philo);
 char					*get_status(int type);
 int						take_fork(t_philo *philo);
