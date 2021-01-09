@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/08 23:59:25 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 00:53:31 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void		message_tru(t_philo *philo, int type)
 	if (type  == TYPE_OVER)
 		return ;
 
-	g_curr = st_nbrcpy(g_curr,(get_time() - philo->c_start - philo->current));
+	g_curr = st_nbrcpy(g_curr,(get_time() - philo->argg->start));
 	g_curr = st_strcpy_end(g_curr, " ");
 	g_curr = st_nbrcpy(g_curr,philo->id);
 	g_curr = st_strcpy_end(g_curr, get_status(type));
