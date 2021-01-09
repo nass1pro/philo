@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:28:19 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 06:06:12 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 16:47:28 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 int			take_fork(t_philo *philo)
 {
+	sem_wait(philo->argg->sem_grap);
 	sem_wait(philo->argg->fork);
 	sem_wait(philo->argg->fork);
+	sem_post(philo->argg->sem_grap);
 	monitor_eat(philo);
 	if (philo_eat(philo))
 		return 1;

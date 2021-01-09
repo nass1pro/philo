@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 04:00:02 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 16:45:58 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct			s_targ
 	int 				cur_eat;
 	sem_t				*somebody_dead_m;
 	sem_t 				*sem_start;
+	sem_t				*sem_grap;
 }						t_targ;
 
 void					put_buff(void);
