@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 04:48:39 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 17:24:16 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int				philo_eat(t_philo *philo)
 	usleep(philo->argg->time_to_eat * 1000);
 	clean_fork(philo);
 	philo->is_eat = 0;
-	sem_post(philo->eat);
 	return (0);
 }
 

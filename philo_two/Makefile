@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+         #
+#    By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/17 15:15:06 by nahaddac          #+#    #+#              #
-#    Updated: 2020/11/13 12:16:13 by nahaddac         ###   ########.fr        #
+#    Updated: 2021/01/09 17:52:20 by nahaddac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror -g
+CFLAGS			= -O2 -Wall -Wextra -Werror -g
 LIBS			= -lpthread
 
 NAME			= philo_two

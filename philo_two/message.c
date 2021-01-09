@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 00:53:31 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 18:08:07 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ int			out_message(int type, t_philo *philo)
 		return (1);
 	if (sem_wait(philo->argg->write_sc))
 		return (1);
-	if (type == TYPE_EAT)
-	{
-		message_tru(philo, TYPE_FORK);
-		message_tru(philo, TYPE_FORK);
-	}
 	message_tru(philo,type);
 	if (type != TYPE_DIED && type != TYPE_OVER)
 	{

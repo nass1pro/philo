@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 07:07:30 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 18:09:55 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,11 @@ void				*philo_life(void *philo)
 	sem_wait(phi->mutex);
 	while (1)
 	{
-		sem_post(phi->mutex);
-		monitor_eat(phi);
-		if (take_fork(phi))
-			return ((void*)0);
+		take_fork(phi);
+		philo_eat(phi);
+		clean_fork(phi);
+		philo_sleep_or_think(phi, TYPE_SLEEP);
+		philo_sleep_or_think(phi, TYPE_THINK);
 	}
 	return ((void *)0);
 }
