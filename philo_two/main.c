@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 18:09:55 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 18:26:57 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			*monitor_eat(void *phi)
 	if (philo->argg->must_eat > 0)
 		if (philo->count_eat == philo->argg->must_eat)
 		{
-			sem_wait(philo->mutex);
+			sem_wait(philo->argg->mutex);
 			if(philo->argg->cur_eat >= (philo->argg->must_eat * philo->argg->nb_ph))
 			{
 				if (end_prog_sem(philo, TYPE_OVER))
@@ -29,10 +29,10 @@ void			*monitor_eat(void *phi)
 					return ((void*)0);
 			}
 			else
-				sem_wait(philo->mutex);
+				sem_wait(philo->argg->mutex);
 			return ((void*)0);
 		}
-	sem_post(philo->mutex);
+	sem_post(philo->argg->mutex);
 	return ((void*)0);
 }
 
@@ -75,7 +75,6 @@ void				*philo_life(void *philo)
 	phi->last_aet = get_time();
 	phi->current = get_time() - phi->last_aet;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
-	sem_wait(phi->mutex);
 	while (1)
 	{
 		take_fork(phi);

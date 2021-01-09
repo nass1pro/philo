@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 16:45:58 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 18:25:32 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct			s_philo
 	int					is_eat;
 	pthread_t			t_ph;
 	sem_t				*eat;
-	sem_t				*mutex;
 	long int			current;
 }						t_philo;
 
@@ -65,6 +64,7 @@ typedef struct			s_targ
 	sem_t				*somebody_dead_m;
 	sem_t 				*sem_start;
 	sem_t				*sem_grap;
+	sem_t				*mutex;
 }						t_targ;
 
 void					put_buff(void);
