@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 02:32:14 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 03:03:45 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void			*monitor(void *arg)
 					return ((void*)1);
 				return ((void*)0);
 			}
-			usleep(1);
 			i++;
 		}
 	}
@@ -106,7 +105,7 @@ int					philo_create(t_targ *arg)
 	pthread_t	flush;
 
 	i = 0;
-	arg->start = get_time();
+
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
 	i = -1;
@@ -125,9 +124,9 @@ int					philo_create(t_targ *arg)
 			return 1;
 		}
 	}
-	if (pthread_create(&tid, NULL, &monitor, arg) != 0)
-		return (1);
+	pthread_create(&tid, NULL, &monitor, arg);
 	pthread_detach(tid);
+	arg->start = get_time();
 	while(--i > 0)
 		sem_post(arg->sem_start);
 	return (0);
