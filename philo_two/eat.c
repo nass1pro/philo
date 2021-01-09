@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 03:36:14 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 03:46:34 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int				philo_sleep_or_think(t_philo *philo, int type)
 		}
 		else
 		{
-			philo->last_aet = get_time();
-			philo->current = get_time() - philo->last_aet;
 			if (out_message(type, philo))
 				return (1);
 			usleep(philo->argg->time_to_sleep * 1000);
