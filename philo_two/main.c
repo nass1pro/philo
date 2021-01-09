@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 04:16:16 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 04:47:41 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,17 @@ static void			*monitor(void *arg)
 	usleep(1000);
 	while (l)
 	{
-		usleep(1000);
 		while (i < ar->nb_ph)
 		{
 			i = 0;
-			if (get_time() > ar->philo[i].limit)
+			if (get_time() > ar->philo[i].limit + 2)
 			{
 				l = 0;
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
 					return ((void*)1);
 				return ((void*)0);
 			}
+			usleep(1);
 			i++;
 		}
 	}
@@ -73,11 +73,13 @@ void				*philo_life(void *philo)
 	phi->last_aet = get_time();
 	phi->current = get_time() - phi->last_aet;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
+	sem_wait(phi->mutex);
 	while (1)
 	{
 		sem_post(phi->mutex);
 		monitor_eat(phi);
-		take_fork(phi);
+		if (take_fork(phi))
+			return ((void*)0);
 	}
 	return ((void *)0);
 }
@@ -92,7 +94,7 @@ void 				*monitor_flush(void *arg)
 		sem_wait(ar->write_sc);
 		put_buff();
 		sem_post(ar->write_sc);
-		usleep(250000);
+		usleep(300000);
 	}
 	return ((void*)0);
 }
@@ -104,7 +106,6 @@ int					philo_create(t_targ *arg)
 	pthread_t	flush;
 
 	i = 0;
-
 	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
@@ -114,6 +115,8 @@ int					philo_create(t_targ *arg)
 	pthread_detach(flush);
 	while (++i < arg->nb_ph)
 	{
+		if (i % 2 == 0)
+			continue;
 		if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
 		{
 			while (--i >= 0)
@@ -121,8 +124,21 @@ int					philo_create(t_targ *arg)
 			return 1;
 		}
 	}
-	if (pthread_create(&tid, NULL, &monitor, arg) != 0);
-		pthread_detach(tid);
+	i = -1;
+	while (++i < arg->nb_ph)
+	{
+		if (i % 2 == 1)
+			continue;
+		if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
+		{
+			while (--i >= 0)
+				pthread_detach(arg->philo[i].t_ph);
+			return 1;
+		}
+	}
+	if (pthread_create(&tid, NULL, &monitor, arg) != 0)
+		return (1);
+	pthread_detach(tid);
 	return (0);
 }
 

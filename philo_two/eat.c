@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:26:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 04:07:58 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 04:48:39 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int				philo_eat(t_philo *philo)
 	philo->is_eat = 1;
 	philo->last_aet = get_time();
 	philo->limit = philo->last_aet + philo->argg->time_to_die;
-	out_message(TYPE_EAT, philo);
-	philo->current = get_time() - philo->last_aet;
+	if (out_message(TYPE_EAT, philo))
+		return (1);
 	usleep(philo->argg->time_to_eat * 1000);
 	clean_fork(philo);
 	philo->is_eat = 0;
@@ -41,19 +41,19 @@ int				philo_sleep_or_think(t_philo *philo, int type)
 			philo->argg->time_to_sleep >= philo->argg->time_to_die)
 		{
 			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			out_message(type, philo);
+			if (out_message(type, philo))
+				return (1);
 			usleep(ti * 1000);
 			return (1);
 		}
 		else
 		{
-			philo->last_aet = get_time();
-			philo->current = get_time() - philo->last_aet;
-			out_message(type, philo);
+			if (out_message(type, philo))
+				return (1);
 			usleep(philo->argg->time_to_sleep * 1000);
 		}
 	}
-	else
-		out_message(type, philo);
+	else if (out_message(type, philo))
+		return (1);
 	return (0);
 }
