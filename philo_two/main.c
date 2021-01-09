@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 01:06:52 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 01:58:45 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void				*philo_life(void *philo)
 	phi->last_aet = get_time();
 	phi->current = get_time() - phi->last_aet;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
-	sem_wait(phi->mutex);
 	while (1)
 	{
 		sem_post(phi->mutex);
