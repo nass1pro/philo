@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 12:16:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/07 23:29:24 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 03:59:46 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char		*ft_strncat(char *dest, const char *src, size_t n)
 	return (dest);
 }
 
-long	get_time(void)
+long int	get_time(void)
 {
 	static struct timeval	t;
 

@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 03:47:14 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/09 04:08:34 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ void				*philo_life(void *philo)
 	{
 		sem_post(phi->mutex);
 		monitor_eat(phi);
-		if (take_fork(phi))
-			return ((void*)0);
+		take_fork(phi);
 	}
 	return ((void *)0);
 }
@@ -110,8 +109,8 @@ int					philo_create(t_targ *arg)
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
 	i = -1;
-	// while (++i < arg->nb_ph)
-	// 	sem_wait(arg->sem_start);
+	while (++i < arg->nb_ph)
+		sem_wait(arg->sem_start);
 	i = -1;
 	if (pthread_create(&flush, NULL, &monitor_flush, arg) != 0)
 		return (1);
