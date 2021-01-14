@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 18:26:57 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 10:45:19 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void			*monitor_eat(void *phi)
 
 static void			*monitor(void *arg)
 {
-	int 		l;
-	t_targ 		*ar;
+	int 			l;
+	t_targ 			*ar;
 	int			i = 0;
 
 	ar = (t_targ*)arg;
