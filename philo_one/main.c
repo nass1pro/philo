@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:26:58 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 15:18:32 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void			*monitor(void *philo_v)
 	t_philo			*philo;
 
 	philo = (t_philo*)philo_v;
+	usleep(1000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->mutex);
@@ -48,7 +49,7 @@ static void			*monitor(void *philo_v)
 			return ((void*)0);
 		}
 		pthread_mutex_unlock(&philo->mutex);
-		usleep(10);
+		usleep(2000);
 	}
 }
 
@@ -58,7 +59,8 @@ void				*philo_life(void *philo)
 	pthread_t		tid;
 
 	phi = (t_philo *)philo;
-	phi->last_aet = phi->c_start;
+	pthread_mutex_lock(&phi->m_start);
+	phi->last_aet = phi->argg->start;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
 	if (pthread_create(&tid, NULL, &monitor, phi) != 0)
 		return ((void*)1);
@@ -74,12 +76,29 @@ void				*philo_life(void *philo)
 	return (void *)0;
 }
 
+void 				*monitor_flush(void *arg)
+{
+	t_targ			*ar;
+
+	ar = (t_targ *)arg;
+	while (1)
+	{
+		pthread_mutex_lock(&ar->write_sc);
+		put_buff();
+		pthread_mutex_unlock(&ar->write_sc);
+		usleep(250000);
+	}
+	return ((void*)0);
+}
+
 int					philo_create(t_targ *arg)
 {
 	int				i;
 	pthread_t		tid;
+	pthread_t		flush;
 
 	i = 0;
+	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
 	if (arg->must_eat > 0)
@@ -91,11 +110,26 @@ int					philo_create(t_targ *arg)
 	i = 0;
 	while (i < arg->nb_ph)
 	{
-		pthread_create(&tid, NULL, &philo_life, &arg->philo[i]);
-		pthread_detach(tid);
-		usleep(100);
+		pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]);
+		pthread_detach(arg->philo[i].t_ph);
 		i++;
 	}
+	i = -1;
+	while (++i < arg->nb_ph)
+	{
+		if (i % 2 == 1)
+			pthread_mutex_unlock(&arg->philo[i].m_start);
+	}
+	usleep(1000);
+	i = -1;
+	while (++i < arg->nb_ph)
+	{
+		if (i % 2 == 0)
+			pthread_mutex_unlock(&arg->philo[i].m_start);
+	}
+	if (pthread_create(&flush, NULL, &monitor_flush, arg) != 0)
+		return (1);
+	pthread_detach(flush);
 	return (0);
 }
 

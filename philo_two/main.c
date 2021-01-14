@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 12:16:03 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 14:07:51 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void			*monitor_eat(void *phi)
 
 static void			*monitor(void *arg)
 {
-	int 			l;
 	t_targ 			*ar;
 	int			i = 0;
+	int				l;
 
 	ar = (t_targ*)arg;
 	l = 1;
@@ -52,7 +52,6 @@ static void			*monitor(void *arg)
 			i = 0;
 			if (get_time() > ar->philo[i].limit)
 			{
-				l = 0;
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
 					return ((void*)1);
 				return ((void*)0);

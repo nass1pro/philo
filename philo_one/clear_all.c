@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 15:11:51 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 11:46:49 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 13:53:51 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int				clear_all(t_targ ar)
 	{
 		pthread_mutex_destroy(&ar.fork[i]);
 		pthread_mutex_destroy(&ar.philo[i].mutex);
+		pthread_mutex_destroy(&ar.philo[i].m_start);
 		i++;
 	}
 	free(ar.philo);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo1.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 09:12:24 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 13:53:27 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct			s_philo
 	pthread_t			t_ph;
 	pthread_mutex_t		mutex;
 	pthread_mutex_t		eat;
+	pthread_mutex_t		m_start;
 
 }						t_philo;
 
@@ -76,11 +77,11 @@ int						out_message(int type, t_philo *philo);
 char					*get_status(int type);
 void					take_fork(t_philo *philo);
 void					clean_fork(t_philo *philo);
-void					message_tru(t_philo *philo,
-						char *id, char *time_stamp, int type);
+void					message_tru(t_philo *philo, int type);
 int						ft_error(int type);
 char					*ft_int_to_char(long long n, char *str);
 char					*ft_strncat(char *dest, const char *src, size_t n);
 void					philo_sleep_or_think(t_philo *philo, int type);
+void					put_buff(void);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:41:40 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 14:32:20 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 16:22:56 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct			s_philo
 	int					is_eat;
 	pthread_t			t_ph;
 	sem_t				*eat;
+	int					must_eat;
 }						t_philo;
 
 typedef struct			s_targ
@@ -60,8 +61,9 @@ typedef struct			s_targ
 	sem_t				*fork;
 	sem_t				*write_sc;
 	int					must_eat_arg;
-	int 				cur_eat;
+	int					cur_eat;
 	sem_t				*somebody_dead_m;
+	sem_t				*end;
 }						t_targ;
 
 char					*ft_int_to_char(long long n, char *str);

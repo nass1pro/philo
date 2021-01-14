@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 13:09:24 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:27:24 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 13:20:55 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,32 @@
 
 void				philo_eat(t_philo *philo)
 {
+	long int	start;
+
 	pthread_mutex_lock(&philo->mutex);
-	philo->count_eat++;
 	philo->is_eat = 1;
 	philo->last_aet = get_time();
 	philo->limit = philo->last_aet + philo->argg->time_to_die;
 	out_message(TYPE_EAT, philo);
-	usleep(philo->argg->time_to_eat * 1000);
-	philo->last_aet = get_time();
+	start = get_time();
+	while (get_time() - start <= philo->argg->time_to_eat)
+		usleep(500);
 	philo->is_eat = 0;
+	philo->count_eat++;
 	pthread_mutex_unlock(&philo->mutex);
 	pthread_mutex_unlock(&philo->eat);
 }
 
 void				philo_sleep_or_think(t_philo *philo, int type)
 {
-	long long	ti;
+	long int	start;
 
 	if (type == TYPE_SLEEP)
 	{
-		if (philo->argg->time_to_eat > philo->argg->time_to_die ||
-			philo->argg->time_to_sleep >= philo->argg->time_to_die)
-		{
-			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			out_message(type, philo);
-			usleep(ti * 1000);
-			return ;
-		}
-		else
-		{
-			usleep(philo->argg->time_to_sleep * 1000);
-			out_message(type, philo);
-		}
+		start = get_time();
+		while (get_time() - start <= philo->argg->time_to_eat)
+			usleep(500);
+		out_message(type, philo);
 	}
 	else
 		out_message(type, philo);

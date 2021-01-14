@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/23 09:14:42 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 13:56:59 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int				init_philo(t_targ *argt)
 		argt->philo[i].is_eat = 0;
 		pthread_mutex_init(&argt->philo[i].eat, NULL);
 		pthread_mutex_init(&argt->philo[i].mutex, NULL);
+		pthread_mutex_init(&argt->philo[i].m_start, NULL);
+		pthread_mutex_lock(&argt->philo[i].m_start);
 		pthread_mutex_lock(&argt->philo[i].eat);
 		i++;
 	}

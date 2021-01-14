@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   message.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 16:35:21 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/18 09:38:10 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 13:36:33 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo1.h"
+
+#define PHILO_PUT_BUF_SIZE 20000
+
+static char		g_buf[PHILO_PUT_BUF_SIZE + 256] = {'\0'};
+static char		*g_curr = g_buf;
 
 char		*get_status(int type)
 {
@@ -24,55 +29,50 @@ char		*get_status(int type)
 		return (" is thinking\n");
 	else if (type == TYPE_DIED)
 		return (" died\n");
-	return (" must eat count reached\n");
+	return ("\0");
 }
 
-char		*revers_str(char *str)
+char		*st_nbrcpy(char *dst, long int num)
 {
-	int		i;
-	int		j;
-	char	swap;
+	if (num > 9)
+		dst = st_nbrcpy(dst, num / 10);
+	 dst[0] = num % 10 + '0';
+	 return (dst + 1);
+ }
 
-	i = ft_strlen(str) - 1;
-	j = 0;
-	while (i > j)
-	{
-		swap = str[i];
-		str[i] = str[j];
-		str[j] = swap;
-		i--;
-		j++;
-	}
-	return (str);
+char		*st_strcpy_end(char *dst, char *str)
+{
+	while (*str != '\0')
+		*dst++ = *str++;
+	return (dst);
 }
 
-void		message_tru(t_philo *philo, char *id, char *time_stamp, int type)
+void put_buff(void)
 {
-	time_stamp = ft_int_to_char(get_time() - philo->c_start, time_stamp);
-	id = ft_int_to_char(philo->id, id);
-	revers_str(time_stamp);
-	revers_str(id);
-	time_stamp = ft_strncat(time_stamp, " ", 1);
-	time_stamp = ft_strncat(time_stamp, id, ft_strlen(id));
-	time_stamp = ft_strncat(time_stamp, get_status(type),
-				ft_strlen(get_status(type)));
-	write(1, time_stamp, ft_strlen(time_stamp));
+	write(STDOUT_FILENO, g_buf, g_curr - g_buf);
+	g_curr = g_buf;
+	g_buf[0] = '\0';
+}
+
+void		message_tru(t_philo *philo, int type)
+{
+	if (type  == TYPE_OVER)
+		return ;
+	g_curr = st_nbrcpy(g_curr,(get_time() - philo->argg->start));
+	g_curr = st_strcpy_end(g_curr, " ");
+	g_curr = st_nbrcpy(g_curr,philo->id);
+	g_curr = st_strcpy_end(g_curr, get_status(type));
+	if (g_curr - g_buf > PHILO_PUT_BUF_SIZE || type == TYPE_DIED)
+		put_buff();
 }
 
 int			out_message(int type, t_philo *philo)
 {
-	char		*time_stamp;
-	char		*id;
-
-	if (!(time_stamp = malloc(sizeof(char) * 128)))
-		return (0);
-	if (!(id = malloc(sizeof(char) * 5)))
-		return (0);
+	if (philo->count_eat > philo->argg->must_eat && philo->argg->must_eat)
+		return (1);
 	pthread_mutex_lock(&philo->argg->write_sc);
-	message_tru(philo, id, time_stamp, type);
+	message_tru(philo, type);
 	if (type != TYPE_DIED && type != TYPE_OVER)
 		pthread_mutex_unlock(&philo->argg->write_sc);
-	free(time_stamp);
-	free(id);
 	return (1);
 }

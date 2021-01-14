@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:43:08 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 17:00:00 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ void			*philo_life(void *philo)
 	pthread_detach(tid);
 	while (1)
 	{
-		if (take_fork(phi))
-			return ((void*)0);
-		if (philo_eat(phi))
-			return ((void*)0);
-		if (clean_fork(phi))
-			return ((void*)0);
+		take_fork(phi);
+		philo_eat(phi);
+		if (phi->count_eat == phi->must_eat)
+			sem_post(phi->argg->end);
+		clean_fork(phi);
 		philo_sleep_or_think(phi, TYPE_SLEEP);
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
@@ -55,14 +54,18 @@ int				philo_create(t_targ *arg)
 		if (pid[i] == -1)
 			exit(0);
 		if (pid[i] == 0)
+		{
 			philo_life(&arg->philo[i]);
-		usleep(100);
+			exit(0);
+		}
 		i++;
 	}
-	i = -1;
+	i = arg->nb_ph;
 	sem_wait(arg->somebody_dead_m);
-	while (++i != arg->nb_ph)
-		kill(pid[i], SIGUSR1);
+	sem_wait(arg->somebody_dead_m);
+	while (--i >= 0)
+		kill(pid[i], SIGKILL);
+	free(pid);
 	return (0);
 }
 

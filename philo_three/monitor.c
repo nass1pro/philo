@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 14:29:12 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/28 12:45:22 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/14 16:45:59 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@ static void			*monitor_eat(void *arg_v)
 	int				i;
 
 	arg = (t_targ*)arg_v;
-	while (arg->cur_eat < arg->must_eat)
-	{
-		i = 0;
-		while (i < arg->nb_ph)
-			if (sem_wait(arg->philo[i++].eat))
-				return ((void*)0);
-		arg->cur_eat++;
-	}
+	i = -1;
+	while (++i < arg->nb_ph)
+		sem_wait(arg->end);
+	i = -1;
+	while (++i < arg->nb_ph)
+		sem_wait(arg->end);
 	if (end_prog_sem(&arg->philo[0], TYPE_OVER))
 		return ((void*)0);
-	if (sem_wait(arg->somebody_dead_m))
+	if (sem_post(arg->somebody_dead_m))
 		return ((void*)0);
 	return ((void*)0);
 }
@@ -46,11 +44,13 @@ void				*monitor(void *philo_v)
 		{
 			if (end_prog_sem(philo, TYPE_DIED))
 				return ((void*)0);
+			if (sem_post(philo->argg->somebody_dead_m))
+				return ((void*)0);
 			return ((void*)0);
 		}
 		if (sem_post(philo->mutex))
 			return ((void*)0);
-		usleep(10);
+		usleep(2000);
 	}
 	return ((void*)0);
 }
