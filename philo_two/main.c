@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 18:34:11 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 19:13:34 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void			*monitor(void *arg)
 		while (i < ar->nb_ph)
 		{
 			i = 0;
-			if (get_time() >= ar->philo[i].limit)
+			if (get_time() > ar->philo[i].limit)
 			{
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
 					return ((void*)1);
