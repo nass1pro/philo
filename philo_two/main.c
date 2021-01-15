@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 19:13:34 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 19:47:03 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,24 @@ void			*monitor_eat(void *phi)
 	return ((void*)0);
 }
 
-static void			*monitor(void *arg)
+static void			*monitor(void *phi)
 {
-	t_targ 			*ar;
-	int			i = 0;
+	t_philo 		*philo;
+	// int			i = 0;
 	int				l;
 
-	ar = (t_targ*)arg;
+	philo = (t_philo *)phi;
 	l = 1;
-	usleep(100);
+	usleep(10000);
 	while (l)
 	{
-		while (i < ar->nb_ph)
+		if (get_time() > philo->limit)
 		{
-			i = 0;
-			if (get_time() > ar->philo[i].limit)
-			{
-				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
-					return ((void*)1);
-				return ((void*)0);
-			}
-			usleep(100);
-			i++;
+			if (end_prog_sem(philo, TYPE_DIED))
+				return ((void*)1);
+			return ((void*)0);
 		}
+		usleep(1000);
 	}
 	return ((void*)0);
 }
@@ -70,8 +65,11 @@ static void			*monitor(void *arg)
 void				*philo_life(void *philo)
 {
 	t_philo		*phi;
+	pthread_t 	tid;
 
 	phi = (t_philo *)philo;
+	pthread_create(&tid, NULL, &monitor, phi);
+	pthread_detach(tid);
 	sem_wait(phi->argg->sem_start);
 	phi->argg->start = get_time();
 	phi->last_aet = get_time();
@@ -107,7 +105,6 @@ void 				*monitor_flush(void *arg)
 int					philo_create(t_targ *arg)
 {
 	int			i;
-	pthread_t	tid;
 	pthread_t	flush;
 
 	i = 0;
@@ -128,9 +125,6 @@ int					philo_create(t_targ *arg)
 			return (1);
 		}
 	}
-	if (pthread_create(&tid, NULL, &monitor, arg) != 0)
-		return (1);
-	pthread_detach(tid);
 	if (pthread_create(&flush, NULL, &monitor_flush, arg) != 0)
 		return (1);
 	pthread_detach(flush);
