@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:41:40 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 16:22:56 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 13:06:33 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct			s_targ
 	int					cur_eat;
 	sem_t				*somebody_dead_m;
 	sem_t				*end;
+	sem_t				*sem_start;
+	sem_t				*sem_grap;
 }						t_targ;
 
 char					*ft_int_to_char(long long n, char *str);

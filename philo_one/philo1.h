@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 12:00:43 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 13:53:27 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 14:25:13 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int						ft_atoi(const char *str);
 size_t					ft_strlen(char *str);
 t_targ					*init(t_targ *arg, int ac, char **argv);
 int						init_philo(t_targ *argt);
-int						clear_all(t_targ ar);
+int						clear_all(t_targ *ar);
 void					philo_eat(t_philo *philo);
 long long				get_time(void);
 int						out_message(int type, t_philo *philo);

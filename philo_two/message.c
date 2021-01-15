@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   message.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 18:08:07 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 18:30:32 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ char		*st_strcpy_end(char *dst, char *str)
 
 void		message_tru(t_philo *philo, int type)
 {
-	if (type  == TYPE_OVER)
+	if (type == TYPE_OVER)
 		return ;
-
 	g_curr = st_nbrcpy(g_curr,(get_time() - philo->argg->start));
 	g_curr = st_strcpy_end(g_curr, " ");
 	g_curr = st_nbrcpy(g_curr,philo->id);
@@ -57,51 +56,8 @@ int			out_message(int type, t_philo *philo)
 		return (1);
 	if (sem_wait(philo->argg->write_sc))
 		return (1);
-	message_tru(philo,type);
+	message_tru(philo, type);
 	if (type != TYPE_DIED && type != TYPE_OVER)
-	{
-		if (sem_post(philo->argg->write_sc))
-			return (1);
-	}
+		sem_post(philo->argg->write_sc);
 	return (0);
 }
-
-
-
-
-// voidmessage_tru(t_philo *philo, char *id, char *time_stamp, int type)
-// {
-	// if (type  == TYPE_OVER)
-	// return ;
-	// time_stamp = ft_int_to_char(get_time() - philo->c_start, time_stamp);
-	// id = ft_int_to_char(philo->id, id);
-	// revers_str(time_stamp);
-	// revers_str(id);
-	// time_stamp = ft_strncat(time_stamp, " ", 1);
-	// time_stamp = ft_strncat(time_stamp, id, 3);
-	// time_stamp = ft_strncat(time_stamp, get_status(type),
-	// ft_strlen(get_status(type)));
-	// write(1, time_stamp, ft_strlen(time_stamp));
-	// if (type == TYPE_FORK)
-// 		write(1, time_stamp, ft_strlen(time_stamp));
-// }
-//
-		// intout_message(int type, t_philo *philo)
-		// {
-		// chartime_stamp[128];
-		// charid[5];
-		//
-		// time_stamp[0] = '\0';
-		//
-		// if (philo->count_eat > philo->argg->must_eat && philo->argg->must_eat)
-		// return (1);
-		// if (sem_wait(philo->argg->write_sc))
-		// return (1);
-		// if (type == TYPE_EAT)
-		// message_tru(philo, id, time_stamp, TYPE_FORK);
-		// message_tru(philo, id, time_stamp, type);
-		// if (type != TYPE_DIED && type != TYPE_OVER)
-		// if (sem_post(philo->argg->write_sc))
-		// return (1);
-		// return (0);
-// }

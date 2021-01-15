@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 15:18:32 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 18:55:15 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,13 @@ void 				*monitor_flush(void *arg)
 	t_targ			*ar;
 
 	ar = (t_targ *)arg;
+	usleep(10000);
 	while (1)
 	{
 		pthread_mutex_lock(&ar->write_sc);
 		put_buff();
 		pthread_mutex_unlock(&ar->write_sc);
-		usleep(250000);
+		usleep(10000);
 	}
 	return ((void*)0);
 }
@@ -98,7 +99,6 @@ int					philo_create(t_targ *arg)
 	pthread_t		flush;
 
 	i = 0;
-	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
 	if (arg->must_eat > 0)
@@ -115,9 +115,10 @@ int					philo_create(t_targ *arg)
 		i++;
 	}
 	i = -1;
+	arg->start = get_time();
 	while (++i < arg->nb_ph)
 	{
-		if (i % 2 == 1)
+		if (i % 2 == 0)
 			pthread_mutex_unlock(&arg->philo[i].m_start);
 	}
 	usleep(1000);
@@ -152,6 +153,6 @@ int					main(int ac, char **argv)
 	philo_create(arg);
 	pthread_mutex_lock(&arg->somebody_dead_m);
 	pthread_mutex_unlock(&arg->somebody_dead_m);
-	clear_all(*arg);
+	clear_all(arg);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 14:07:51 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 18:34:11 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,27 @@
 void			*monitor_eat(void *phi)
 {
 	t_philo 			*philo;
+	int i = -1;
 
 	philo = (t_philo*)phi;
 	if (philo->argg->must_eat > 0)
 		if (philo->count_eat == philo->argg->must_eat)
 		{
-			sem_wait(philo->argg->mutex);
-			if(philo->argg->cur_eat >= (philo->argg->must_eat * philo->argg->nb_ph))
+			while (++i < philo->argg->nb_ph)
 			{
-				if (end_prog_sem(philo, TYPE_OVER))
-					return ((void*)0);
-				if (sem_wait(philo->argg->somebody_dead_m))
-					return ((void*)0);
+				if (philo->argg->philo[i].count_eat >= philo->argg->must_eat)
+					continue;
+				else
+					break ;
 			}
-			else
-				sem_wait(philo->argg->mutex);
+			if (i == philo->argg->nb_ph)
+			{
+				end_prog_sem(philo, TYPE_OVER);
+				sem_wait(philo->argg->somebody_dead_m);
+				return ((void*)0);
+			}
 			return ((void*)0);
 		}
-	sem_post(philo->argg->mutex);
 	return ((void*)0);
 }
 
@@ -44,19 +47,19 @@ static void			*monitor(void *arg)
 
 	ar = (t_targ*)arg;
 	l = 1;
-	usleep(1000);
+	usleep(100);
 	while (l)
 	{
 		while (i < ar->nb_ph)
 		{
 			i = 0;
-			if (get_time() > ar->philo[i].limit)
+			if (get_time() >= ar->philo[i].limit)
 			{
 				if (end_prog_sem(&ar->philo[i], TYPE_DIED))
 					return ((void*)1);
 				return ((void*)0);
 			}
-			usleep(1);
+			usleep(100);
 			i++;
 		}
 	}
@@ -79,6 +82,7 @@ void				*philo_life(void *philo)
 		take_fork(phi);
 		philo_eat(phi);
 		clean_fork(phi);
+		monitor_eat(philo);
 		philo_sleep_or_think(phi, TYPE_SLEEP);
 		philo_sleep_or_think(phi, TYPE_THINK);
 	}
@@ -95,7 +99,7 @@ void 				*monitor_flush(void *arg)
 		sem_wait(ar->write_sc);
 		put_buff();
 		sem_post(ar->write_sc);
-		usleep(200000);
+		usleep(10000);
 	}
 	return ((void*)0);
 }
@@ -116,11 +120,12 @@ int					philo_create(t_targ *arg)
 	i = -1;
 	while (++i < arg->nb_ph)
 	{
-		if (pthread_create(&arg->philo[i].t_ph, NULL, &philo_life, &arg->philo[i]) != 0)
+		if (pthread_create(&arg->philo[i].t_ph, NULL,
+			&philo_life, &arg->philo[i]) != 0)
 		{
 			while (--i >= 0)
 				pthread_detach(arg->philo[i].t_ph);
-			return 1;
+			return (1);
 		}
 	}
 	if (pthread_create(&tid, NULL, &monitor, arg) != 0)

@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 13:56:59 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 15:20:36 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int				init_philo(t_targ *argt)
 {
 	int			i;
 
-	i = 0;
+	i = -1;
 	if (!(argt->philo = malloc(sizeof(t_philo) * argt->nb_ph)))
 		return (0);
-	while (i <= argt->nb_ph)
+	while (++i < argt->nb_ph)
 	{
 		argt->philo[i].id = i + 1;
 		argt->philo[i].count_eat = 0;
@@ -32,7 +32,6 @@ int				init_philo(t_targ *argt)
 		pthread_mutex_init(&argt->philo[i].m_start, NULL);
 		pthread_mutex_lock(&argt->philo[i].m_start);
 		pthread_mutex_lock(&argt->philo[i].eat);
-		i++;
 	}
 	return (1);
 }
@@ -41,17 +40,16 @@ t_targ			*init_mut(t_targ *ar)
 {
 	int			i;
 
-	i = 0;
-	if (!(ar->fork =
-		malloc(sizeof(pthread_mutex_t) * ar->nb_ph)))
+	i = -1;
+	if (!(ar->fork = malloc(sizeof(pthread_mutex_t) * ar->nb_ph)))
 		return (NULL);
+	while (++i < ar->nb_ph)
+		pthread_mutex_init(&ar->fork[i], NULL);
 	pthread_mutex_init(&ar->write_sc, NULL);
 	pthread_mutex_init(&ar->somebody_dead_m, NULL);
 	pthread_mutex_lock(&ar->somebody_dead_m);
 	ar->philo_dead = 0;
 	ar->must_eat_arg = 0;
-	while (i <= ar->nb_ph)
-		pthread_mutex_init(&ar->fork[i++], NULL);
 	return (ar);
 }
 
@@ -103,5 +101,5 @@ t_targ			*init(t_targ *time_arg, int ac, char **argv)
 			time_arg->must_eat = 0;
 		return (init_mut(time_arg));
 	}
-	return (time_arg);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 #    By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/17 15:15:06 by nahaddac          #+#    #+#              #
-#    Updated: 2021/01/09 17:52:20 by nahaddac         ###   ########.fr        #
+#    Updated: 2021/01/15 15:30:36 by nahaddac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ OBJS			= $(SRCS:.c=.o)
 
 CC				= gcc
 RM				= rm -f
-CFLAGS			= -O2 -Wall -Wextra -Werror -g
+CFLAGS			= -Wall -Wextra -Werror -g
 LIBS			= -lpthread
 
 NAME			= philo_two

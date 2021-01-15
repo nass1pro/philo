@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 17:00:00 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 13:05:44 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void			*philo_life(void *philo)
 	pthread_t	tid;
 
 	phi = (t_philo *)philo;
+	sem_wait(phi->argg->sem_start);
 	phi->last_aet = phi->c_start;
 	phi->limit = phi->last_aet + phi->argg->time_to_die;
 	if (pthread_create(&tid, NULL, &monitor, philo) != 0)
@@ -36,6 +37,7 @@ void			*philo_life(void *philo)
 	return ((void *)0);
 }
 
+
 int				philo_create(t_targ *arg)
 {
 	int			i;
@@ -46,6 +48,8 @@ int				philo_create(t_targ *arg)
 		return (1);
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
+	while (++i < arg->nb_ph)
+		sem_wait(arg->sem_start);
 	start_m(arg);
 	i = 0;
 	while (i < arg->nb_ph)
@@ -61,6 +65,8 @@ int				philo_create(t_targ *arg)
 		i++;
 	}
 	i = arg->nb_ph;
+	while (++i < arg->nb_ph)
+		sem_post(arg->sem_start);
 	sem_wait(arg->somebody_dead_m);
 	sem_wait(arg->somebody_dead_m);
 	while (--i >= 0)

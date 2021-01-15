@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:39:59 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/14 16:22:46 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/15 13:07:00 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ t_targ		*init_sem(t_targ *ar)
 	ar->write_sc = sem_open("wt", O_CREAT | O_EXCL, S_IRWXU, 1);
 	sem_unlink("dead");
 	ar->somebody_dead_m = sem_open("dead", O_CREAT | O_EXCL, S_IRWXU, 1);
+	sem_unlink("start");
+	ar->sem_start = sem_open("start", O_CREAT | O_EXCL, S_IRWXU, ar->nb_ph);
+	sem_unlink("grap");
+	ar->sem_grap = sem_open("grap", O_CREAT | O_EXCL, S_IRWXU, 1);
 	ar->philo_dead = 0;
 	ar->cur_eat = 0;
 	return (ar);
