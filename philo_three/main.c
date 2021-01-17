@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 13:05:44 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/17 15:38:04 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int				philo_create(t_targ *arg)
 		sem_post(arg->sem_start);
 	sem_wait(arg->somebody_dead_m);
 	sem_wait(arg->somebody_dead_m);
-	while (--i >= 0)
+	i = arg->nb_ph;
+	while (++i < arg->nb_ph)
 		kill(pid[i], SIGKILL);
 	free(pid);
 	return (0);
