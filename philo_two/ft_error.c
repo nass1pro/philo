@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/24 10:12:54 by nahaddac          #+#    #+#             */
-/*   Updated: 2020/12/20 10:53:39 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 13:22:21 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int			ft_error(int type)
 {
 	if (type == TYPE_ER_ARG)
-		write(1, "verifier vos arguments\n", 23);
+		write(1, "check you arguments\n", 20);
 	else if (type == TYPE_ER_MAL)
 		write(1, "malloc error\n", 13);
 	else if (type == TYPE_ER_MUT)

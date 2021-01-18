@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/25 11:51:09 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 15:20:36 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 13:18:37 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_targ			*init(t_targ *time_arg, int ac, char **argv)
 		if (ac > 5)
 		{
 			time_arg->must_eat = ft_atoi(argv[5]);
-			if (time_arg->must_eat < 0)
+			if (time_arg->must_eat <= 0)
 				return (NULL);
 		}
 		else
