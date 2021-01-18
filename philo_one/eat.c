@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 13:09:24 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 13:43:01 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 11:01:42 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,19 @@ void				philo_sleep_or_think(t_philo *philo, int type)
 	}
 	else
 		out_message(type, philo);
+}
+
+char				*get_status(int type)
+{
+	if (type == TYPE_FORK)
+		return (" has taken a fork\n");
+	else if (type == TYPE_EAT)
+		return (" is eating\n");
+	else if (type == TYPE_SLEEP)
+		return (" is sleeping\n");
+	else if (type == TYPE_THINK)
+		return (" is thinking\n");
+	else if (type == TYPE_DIED)
+		return (" died\n");
+	return ("\0");
 }

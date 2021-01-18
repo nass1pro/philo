@@ -6,66 +6,16 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 13:56:13 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 19:47:03 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 11:10:47 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo2.h"
 
-void			*monitor_eat(void *phi)
-{
-	t_philo 			*philo;
-	int i = -1;
-
-	philo = (t_philo*)phi;
-	if (philo->argg->must_eat > 0)
-		if (philo->count_eat == philo->argg->must_eat)
-		{
-			while (++i < philo->argg->nb_ph)
-			{
-				if (philo->argg->philo[i].count_eat >= philo->argg->must_eat)
-					continue;
-				else
-					break ;
-			}
-			if (i == philo->argg->nb_ph)
-			{
-				end_prog_sem(philo, TYPE_OVER);
-				sem_wait(philo->argg->somebody_dead_m);
-				return ((void*)0);
-			}
-			return ((void*)0);
-		}
-	return ((void*)0);
-}
-
-static void			*monitor(void *phi)
-{
-	t_philo 		*philo;
-	// int			i = 0;
-	int				l;
-
-	philo = (t_philo *)phi;
-	l = 1;
-	usleep(10000);
-	while (l)
-	{
-		if (get_time() > philo->limit)
-		{
-			if (end_prog_sem(philo, TYPE_DIED))
-				return ((void*)1);
-			return ((void*)0);
-		}
-		usleep(1000);
-	}
-	return ((void*)0);
-}
-
-
 void				*philo_life(void *philo)
 {
-	t_philo		*phi;
-	pthread_t 	tid;
+	t_philo			*phi;
+	pthread_t		tid;
 
 	phi = (t_philo *)philo;
 	pthread_create(&tid, NULL, &monitor, phi);
@@ -87,21 +37,6 @@ void				*philo_life(void *philo)
 	return ((void *)0);
 }
 
-void 				*monitor_flush(void *arg)
-{
-	t_targ			*ar;
-
-	ar = (t_targ *)arg;
-	while (1)
-	{
-		sem_wait(ar->write_sc);
-		put_buff();
-		sem_post(ar->write_sc);
-		usleep(10000);
-	}
-	return ((void*)0);
-}
-
 int					philo_create(t_targ *arg)
 {
 	int			i;
@@ -111,9 +46,6 @@ int					philo_create(t_targ *arg)
 	arg->start = get_time();
 	while (i < arg->nb_ph)
 		arg->philo[i++].c_start = get_time();
-	i = -1;
-	while (++i < arg->nb_ph)
-		sem_wait(arg->sem_start);
 	i = -1;
 	while (++i < arg->nb_ph)
 	{

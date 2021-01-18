@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+         #
+#    By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/17 15:15:06 by nahaddac          #+#    #+#              #
-#    Updated: 2021/01/15 15:30:36 by nahaddac         ###   ########.fr        #
+#    Updated: 2021/01/18 11:11:42 by nahaddac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS			= main.c ft_atoi.c init.c clear_all.c eat.c message.c fork.c\
-				  ft_error.c utils.c
+				  ft_error.c utils.c monitor.c
 
 OBJS			= $(SRCS:.c=.o)
 

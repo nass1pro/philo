@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 16:35:21 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/18 10:38:04 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 11:00:53 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,6 @@
 
 static char		g_buf[PHILO_PUT_BUF_SIZE + 256] = {'\0'};
 static char		*g_curr = g_buf;
-
-char		*get_status(int type)
-{
-	if (type == TYPE_FORK)
-		return (" has taken a fork\n");
-	else if (type == TYPE_EAT)
-		return (" is eating\n");
-	else if (type == TYPE_SLEEP)
-		return (" is sleeping\n");
-	else if (type == TYPE_THINK)
-		return (" is thinking\n");
-	else if (type == TYPE_DIED)
-		return (" died\n");
-	return ("\0");
-}
 
 char		*st_nbrcpy(char *dst, long int num)
 {

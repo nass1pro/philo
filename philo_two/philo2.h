@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/18 10:40:52 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 11:11:24 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ char					*ft_strncat(char *dest, const char *src, size_t n);
 int						philo_sleep_or_think(t_philo *philo, int type);
 void					*end_prog_sem(t_philo *philo, int type);
 void					*monitor_eat(void *phi);
-
+void					*monitor(void *phi);
+void					*monitor_flush(void *arg);
 #endif
