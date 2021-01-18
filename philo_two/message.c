@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 15:14:37 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 18:30:32 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 10:39:43 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ char		*st_nbrcpy(char *dst, long int num)
 {
 	if (num > 9)
 		dst = st_nbrcpy(dst, num / 10);
-	 dst[0] = num % 10 + '0';
-	 return (dst + 1);
- }
+	dst[0] = num % 10 + '0';
+	return (dst + 1);
+}
 
 char		*st_strcpy_end(char *dst, char *str)
 {
@@ -35,15 +35,15 @@ void		message_tru(t_philo *philo, int type)
 {
 	if (type == TYPE_OVER)
 		return ;
-	g_curr = st_nbrcpy(g_curr,(get_time() - philo->argg->start));
+	g_curr = st_nbrcpy(g_curr, (get_time() - philo->argg->start));
 	g_curr = st_strcpy_end(g_curr, " ");
-	g_curr = st_nbrcpy(g_curr,philo->id);
+	g_curr = st_nbrcpy(g_curr, philo->id);
 	g_curr = st_strcpy_end(g_curr, get_status(type));
 	if (g_curr - g_buf > PHILO_PUT_BUF_SIZE || type == TYPE_DIED)
 		put_buff();
 }
 
-void put_buff(void)
+void		put_buff(void)
 {
 	write(STDOUT_FILENO, g_buf, g_curr - g_buf);
 	g_curr = g_buf;

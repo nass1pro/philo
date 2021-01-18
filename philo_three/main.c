@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/17 15:38:04 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 10:56:33 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,14 @@ void			*philo_life(void *philo)
 	return ((void *)0);
 }
 
-
-int				philo_create(t_targ *arg)
+static pid_t	*start_f(t_targ *arg)
 {
-	int			i;
 	pid_t		*pid;
+	int			i;
 
 	i = 0;
 	if (!(pid = malloc(sizeof(pid_t) * arg->nb_ph)))
-		return (1);
-	while (i < arg->nb_ph)
-		arg->philo[i++].c_start = get_time();
-	while (++i < arg->nb_ph)
-		sem_wait(arg->sem_start);
-	start_m(arg);
-	i = 0;
+		return (NULL);
 	while (i < arg->nb_ph)
 	{
 		pid[i] = fork();
@@ -64,6 +57,19 @@ int				philo_create(t_targ *arg)
 		}
 		i++;
 	}
+	return (pid);
+}
+
+int				philo_create(t_targ *arg)
+{
+	int			i;
+	pid_t		*pid;
+
+	i = 0;
+	while (i < arg->nb_ph)
+		arg->philo[i++].c_start = get_time();
+	start_m(arg);
+	pid = start_f(arg);
 	i = arg->nb_ph;
 	while (++i < arg->nb_ph)
 		sem_post(arg->sem_start);

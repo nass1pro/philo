@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo2.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nahaddac <nahaddac@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/17 14:05:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/09 18:25:32 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 10:40:52 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct			s_philo
 typedef struct			s_targ
 {
 	int					nb_ph;
-	long int 			start;
+	long int			start;
 	long int			time_to_die;
 	long int			time_to_eat;
 	long int			time_to_sleep;
@@ -60,19 +60,17 @@ typedef struct			s_targ
 	sem_t				*fork;
 	sem_t				*write_sc;
 	int					must_eat_arg;
-	int 				cur_eat;
+	int					cur_eat;
 	sem_t				*somebody_dead_m;
-	sem_t 				*sem_start;
+	sem_t				*sem_start;
 	sem_t				*sem_grap;
 	sem_t				*mutex;
 }						t_targ;
 
 void					put_buff(void);
-void 					*monitor_flush(void *arg);
-char		*st_nbrcpy(char *dst, long int num);
-char		*st_strcpy_end(char *dst, char *str);
-
-
+void					*monitor_flush(void *arg);
+char					*st_nbrcpy(char *dst, long int num);
+char					*st_strcpy_end(char *dst, char *str);
 char					*ft_int_to_char(long long n, char *str);
 int						ft_atoi(const char *str);
 size_t					ft_strlen(char *str);
@@ -85,7 +83,7 @@ int						out_message(int type, t_philo *philo);
 char					*get_status(int type);
 int						take_fork(t_philo *philo);
 int						clean_fork(t_philo *philo);
-void					message_tru(t_philo *philo,int type);
+void					message_tru(t_philo *philo, int type);
 int						ft_error(int type);
 char					*ft_strncat(char *dest, const char *src, size_t n);
 int						philo_sleep_or_think(t_philo *philo, int type);

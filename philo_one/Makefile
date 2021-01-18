@@ -6,12 +6,12 @@
 #    By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 08:49:38 by nahaddac          #+#    #+#              #
-#    Updated: 2021/01/15 16:03:57 by nahaddac         ###   ########.fr        #
+#    Updated: 2021/01/18 10:33:44 by nahaddac         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS			= main.c ft_atoi.c init.c clear_all.c eat.c message.c fork.c\
-				  ft_error.c utils.c
+				  ft_error.c utils.c monitor.c
 
 OBJS			= $(SRCS:.c=.o)
 
