@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/04 13:09:24 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/18 11:01:42 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 12:09:42 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void				philo_sleep_or_think(t_philo *philo, int type)
 
 	if (type == TYPE_SLEEP)
 	{
+		out_message(type, philo);
 		start = get_time();
 		while (get_time() - start <= philo->argg->time_to_sleep)
 			usleep(500);
-		out_message(type, philo);
 	}
 	else
 		out_message(type, philo);

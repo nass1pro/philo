@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:38:27 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/15 12:52:49 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 12:59:55 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,15 @@ int				philo_eat(t_philo *philo)
 
 int				philo_sleep_or_think(t_philo *philo, int type)
 {
-	long long	ti;
+	long long	start;
 
 	if (type == TYPE_SLEEP)
 	{
-		if (philo->argg->time_to_eat > philo->argg->time_to_die ||
-			philo->argg->time_to_sleep >= philo->argg->time_to_die)
-		{
-			ti = philo->argg->time_to_die - (get_time() - philo->last_aet);
-			if (out_message(type, philo))
-				return (1);
-			usleep(ti * 1000);
+		if (out_message(type, philo))
 			return (1);
-		}
-		else
-		{
-			usleep(philo->argg->time_to_sleep * 1000);
-			if (out_message(type, philo))
-				return (1);
-		}
+		start = get_time();
+		while (get_time() - start <= philo->argg->time_to_sleep)
+			usleep(500);
 	}
 	else if (out_message(type, philo))
 		return (1);

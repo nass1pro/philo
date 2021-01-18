@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/23 11:38:25 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/18 10:33:25 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 12:27:18 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void			start_philo(t_targ *arg)
 	i = -1;
 	while (++i < arg->nb_ph)
 	{
-		if (i % 2 == 0)
+		if (i % 2 == 1)
 			pthread_mutex_unlock(&arg->philo[i].m_start);
 	}
 }

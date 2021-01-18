@@ -6,7 +6,7 @@
 /*   By: nahaddac <nahaddac@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 13:37:18 by nahaddac          #+#    #+#             */
-/*   Updated: 2021/01/18 10:56:33 by nahaddac         ###   ########.fr       */
+/*   Updated: 2021/01/18 12:57:02 by nahaddac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void			*philo_life(void *philo)
 	{
 		take_fork(phi);
 		philo_eat(phi);
-		if (phi->count_eat == phi->must_eat)
+		if (phi->count_eat >= phi->must_eat)
 			sem_post(phi->argg->end);
 		clean_fork(phi);
 		philo_sleep_or_think(phi, TYPE_SLEEP);
@@ -75,7 +75,7 @@ int				philo_create(t_targ *arg)
 		sem_post(arg->sem_start);
 	sem_wait(arg->somebody_dead_m);
 	sem_wait(arg->somebody_dead_m);
-	i = arg->nb_ph;
+	i = -1;
 	while (++i < arg->nb_ph)
 		kill(pid[i], SIGKILL);
 	free(pid);
